@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+svg{
+	position:absolute;
+}
+svg#canvas{
+	background:linear-gradient(to bottom,#CDCDFF,#FFFF99);
+}
+svg path.bgGrid{
+	left:0px;
+	top:0px;
+	stroke:#A0A0A0;
+	stroke-width:1px;
+	shape-rendering: crispEdges;
+	stroke-linecap:round;
+	stroke-dasharray:2,2;
+	opacity:.35;
+}
+svg rect.emptyBgRect{
+	fill:none;
+	opacity:0;
+}
