@@ -1,49 +1,51 @@
 <?php
 //<M>
-//◊-
-//@-FILEN…V   : PROJECT_NAME - FILE_GENERATOR.php-@
-//@-SZERZ’    : AX07057-@
-//@-L…TREHOZVA:  2016. j˙l. 26.-@
-//@-F‹GG’S…GEK:
-//◊-
+//√ó-
+//@-FILEN√âV   : PROJECT_NAME - FILE_GENERATOR.php-@
+//@-SZERZ≈ê    : AX07057-@
+//@-L√âTREHOZVA:  2016. j√∫l. 26.-@
+//@-F√úGG≈êS√âGEK:
+//√ó-
 // @-- SVG_OBJECT.php-@
 //-@
-//-◊
+//-√ó
 //-@
-//@-LEÕR¡S    :
-// Ez a PHP kÛd azt a feladatot l·tja el hogy egy adott lapot, vagy 
-// lapelemet gener·l.
-//@-M”DOSÕT¡SOK :
-//◊-
+//@-LE√çR√ÅS    :
+// Ez a PHP k√≥d azt a feladatot l√°tja el hogy egy adott lapot, vagy 
+// lapelemet gener√°l.
+//@-M√ìDOS√çTASOK :
+//√ó-
 // @-- ... -@
-//-◊
-//-◊
+//-√ó
+//-√ó
 //</M>
 		
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/SVG_OBJECT.php';	
 
 class PAGE_GNRTR{
 //<SF>
-// Ez az oszt·ly tartalmazza a SVG objektumokat gener·lÛ kÛdot.
+// Ez az oszt√°ly tartalmazza a SVG objektumokat gener√°l√≥ k√≥dot.
 //</SF>
-
-		
+	
+	private $htmlContent = "";
+	private $rootSVG = "";
 	
 	public function __construct(){
 	//<SF>
-	//Az oszt·ly konstruktora, mÈg nemtom kell-e ide valami...
-	//</SF>	
+	//Az oszt√°ly konstruktora, m√©g nemtom kell-e ide valami...
+	//</SF>
+		$this->rootSVG =  $this->createRootSVG();
 	}
 	
 	public function GENRT_BASIC_SITE_BACKGROUND(){
 	//<SF>
-	//Ez az oszt·ly gener·l egy alap SVG h·tteret, aminek szintÈn tˆbb eleme lesz.
+	//Ez az oszt√°ly gener√°l egy alap SVG h√°tteret, aminek szint√©n t√∂bb eleme lesz.
 	//</SF>
 		
 		$svgCntnr = new SVG_OBJECT();
 		
 		$svgCntnr = $this->genBSC_BG_SVG();
-		
+		$svg = $this->rootSVG;
 		$htmlCnnt = "";
 		
 		$htmlCnnt .= '<!DOCTYPE html>' . PHP_EOL;
@@ -51,34 +53,60 @@ class PAGE_GNRTR{
 		$htmlCnnt .= '<meta charset="utf-8">';
 		$htmlCnnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
 		$htmlCnnt .= '</head>' . PHP_EOL;
-		$htmlCnnt .= '<body>' . PHP_EOL;
-		$htmlCnnt .= $svgCntnr;
-		$htmlCnnt .= '</body>' . PHP_EOL;
+		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
+		
+		
+		$svg->addObject($this->genBSC_BG_SVG());
+		$svg->addObject($this->tstSVGIcon());
+		$svg->addObject($this->testShadow());
+		
+		
+		$htmlCnnt .= $svg->getCODE();
+		$htmlCnnt .= '</div></body>' . PHP_EOL;
 		$htmlCnnt .= '</html>';
 		
 		return $htmlCnnt;
 	}
 	
+	private function createRootSVG(){
+	//<SF>
+	// Az alap, k√∂zvetlen√ºl a BODY-ba ker√ºl≈ë SVG node.
+	// Ezt √©rdemes megtartani, √©s a [SVG_OBJECT] oszt√°ly addObject f√ºggv√©ny√©vel 
+	// ehhez adni tov√°bbi elemeket.
+	//</SF>
+		$prmObj = array();
+		$prmObj['id'] = "canvas";
+		$prmObj['width'] = "100%";
+		$prmObj['height'] = "100%";
+		$prmObj['type'] = "svg";
+		
+		$rootSvg = new SVG_OBJECT($prmObj);
+
+		return $rootSvg;
+	}
+	
 	private function genBSC_BG_SVG(){
 	//<SF>
-	//Alap SVG h·ttÈr gener·l·sa.
+	//Alap SVG h√°tt√©r gener√°l√°sa.
 	//</SF>
-		$code = "<svg id=\"canvas\" height=\"100%\" width=\"100%\">";
-		$code .= "<g id=\"baseGridGrp\">";
-		for($i=0; $i<40; $i++){
-			$code .= '<path d="M' . ($i*64) . ' 0 l0 800" class="bgGrid"></path>';
-			$code .= '<path d="M0 ' . ($i*64) . ' l1400 0" class="bgGrid"></path>';
+		$prms = array();
+		$prms['id'] = "baseGridGrp";
+		$grid = new SVG_OBJECT($prms);
+		$code = "<g id=\"baseGridGrp\">";
+		for($i=0; $i<15; $i++){
+			$code .= '<path d="M' . ($i*64) . ' 0 l0 1280" class="bgGrid"></path>';
+		}
+		for($i=0; $i<20; $i++){
+			$code .= '<path d="M0 ' . ($i*64) . ' l960 0" class="bgGrid"></path>';
 		}
 		$code .= "</g>";
-		$code .= $this->tstSVGIcon();
-		$code .= "</svg>";
-		
-		return $code;
+		$grid->setCODE($code);
+		return $grid;
 	}
 	
 	public function tstSVGIcon(){
 	//<SF>
-	// Egy teljes elem kÛdj·nak meggener·l·sa.
+	// Egy teljes elem k√≥dj√°nak meggener√°l√°sa.
 	//</SF>
 		$obj = new SVG_OBJECT();
 		$code = '<g class="clsGrp" height="64" width="96" transform="translate(256,0)">
@@ -116,9 +144,29 @@ class PAGE_GNRTR{
 		  </g>
 		</g>';
 		$obj->setCODE($code);
-		return $obj->getCODE();
+		return $obj;
 	}
 	
+	public function testShadow(){
+	//<SF>
+	//Egy drop -shadow effect egy cicrcle-hez...
+	//</SF>
+		$grp = new SVG_OBJECT();
+		$cd = '<g width="128" height="128">
+			<filter id="dropShadow">
+		    	<feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+		    	<feOffset dx="3" dy="5"></feOffset>
+		    <feMerge>
+		        <feMergeNode></feMergeNode>
+		        <feMergeNode in="SourceGraphic"></feMergeNode>
+		    </feMerge>
+		  </filter>
+		  <circle cx="64"  cy="64" r="55" fill="#55FFFF" filter="url(#dropShadow)" stroke="#FFFFFF" stroke-width="2px"></circle>
+		</g>';
+		//$cd= '<circle cx="100" cy="100" r="80" fill="#FFAAFF"></circle>';
+		$grp->setCODE($cd);
+		return $grp;
+	}
 }
 
 ?>

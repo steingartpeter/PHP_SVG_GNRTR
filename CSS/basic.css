@@ -1,8 +1,20 @@
 @CHARSET "UTF-8";
+body{
+
+	width:1000px;
+	margin:50px auto;
+	background-color: #050505;
+}
+div.SVG-Container{
+	
+}
 svg{
 	position:absolute;
 }
 svg#canvas{
+	margin:auto;
+	width:960px;
+	height:1280px;
 	background:linear-gradient(to bottom,#CDCDFF,#FFFF99);
 }
 svg path.bgGrid{
@@ -13,7 +25,7 @@ svg path.bgGrid{
 	shape-rendering: crispEdges;
 	stroke-linecap:round;
 	stroke-dasharray:2,2;
-	opacity:.35;
+	opacity:.85;
 }
 svg rect.emptyBgRect{
 	fill:none;
