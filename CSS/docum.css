@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+@font-face {
+    font-family: ubuntu;
+    src: url(FONTS/Ubuntu-M.ttf);
+}
+body{
+	background: #020202;
+	font-family: "ubuntu"
+}
+div.docDiv{
+	width:75%;
+	height:100%;
+	margin: 0 auto;
+	background: linear-gradient(#1e5799 0%,
+	#2be5df 30%,#207cca 52%,#2be5df 69%,#7db9e8 100%);
+	border:5px #2525AA dotted;
+	border-radius:15px;
+	padding:10px;
+	margin-bottom:25px;
+	box-shadow:1px 5px 10px #9999FF;
+}
+div.modulN{
+	background:linear-gradient(#7575FF,#9595AA);
+	border:#CDCDCD solid 3px;
+	border-radius:8px;
+	padding:8px;
+	box-shadow:6px 6px 10px #050505;
+	color:#1515AA;
+	margin-left:10px;
+	margin-right:10px;
+	margin-bottom:20px;
+	font-weight: bold;
+	font-size: 18px;
+}
+h4.funcNm{
+	margin-left:12px;
+	margin-right:12px;
+	margin-bottom:5px;
+	font-size: 16px;
+	background-color:#ABABAB;
+	padding: 5px;
+}
+h4.funcNm:hover{
+	margin-left:12px;
+	margin-right:12px;
+	margin-bottom:10px;
+	font-size: 16px;
+	background-color:#AB8A8A;
+	padding: 5px;
+	box-shadow:3px 3px 5px #050505;
+}
+div.subFunc{
+	margin-left:18px;
+	margin-right:18px;
+	margin-bottom:2px;
+	font-size: 14px;
+	background-color:#FAFAFF;
+	color:#1515AA;
+}
+div.subFunc:hover{
+	margin-left:18px;
+	margin-right:18px;
+	margin-bottom:6px;
+	font-size: 14px;
+	background-color:#AAAAFA;
+	color:#1515AA;
+	box-shadow:3px 3px 5px #050505;
+	
+}
+div.normNote{
+	margin-left:22px;
+	margin-right:22px;
+	margin-bottom:8px;
+	font-size: 12px;
+}
+div.normNote:hover{
+	margin-left:22px;
+	margin-right:22px;
+	margin-bottom:8px;
+	font-size: 14px;
+	background-color:#FFFFAA;
+}
+.code{
+	background-color: #0505CC;
+	color:#FFFF00;
+	/*font-family: "Courier New";*/
+	font-family: "Lucida Console";
+	font-size: 12px;
+	padding:5px;
+	margin-left:24px;
+	margin-right:24px;
+	margin-bottom:8px;
+	border:2px #00AAAA solid;
+	box-shadow: 3px 3px 4px #020202;
+}
+.debugNote{
+	font-family: "Courier New";
+	font-size: 12px;
+	background-color: #050505;
+	color:#F0F0F0;
+	border:#555555 2px solid;
+	margin-left:24px;
+	margin-right:24px;
+	margin-bottom:2px;
+	padding:5px;
+	box-shadow: 3px 3px 4px #020202;
+}
+
+
+
+
+
+
+
+
+

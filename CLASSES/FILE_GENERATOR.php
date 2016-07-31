@@ -9,7 +9,6 @@
 // @-- SVG_OBJECT.php-@
 //-@
 //-×
-//-@
 //@-LEÍRÁS    :
 // Ez a PHP kód azt a feladatot látja el hogy egy adott lapot, vagy 
 // lapelemet generál.
@@ -42,6 +41,11 @@ class PAGE_GNRTR{
 	//Ez az osztály generál egy alap SVG hátteret, aminek szintén több eleme lesz.
 	//</SF>
 		
+		//<nn>
+		// Létrehozzuk az alap SVG objektumunkat, azzal, 
+		// hogy egy new SVG objektumot hozumnk létre.<br>
+		// - $svgCntnr
+		//</nn>
 		$svgCntnr = new SVG_OBJECT();
 		
 		$svgCntnr = $this->genBSC_BG_SVG();
@@ -57,8 +61,8 @@ class PAGE_GNRTR{
 		
 		
 		$svg->addObject($this->genBSC_BG_SVG());
-		$svg->addObject($this->tstSVGIcon());
-		$svg->addObject($this->testShadow());
+		//$svg->addObject($this->tstSVGIcon());
+		//$svg->addObject($this->testShadow());
 		
 		
 		$htmlCnnt .= $svg->getCODE();
@@ -169,7 +173,14 @@ class PAGE_GNRTR{
 	}
 
 	public function getRootSVG(){
-		
+	//<SF>
+	// Ez a függvény hozzáférést biztosít egy másik lapon ennek az osztélynak
+	// a RootSVG objektumához, így elméletileg, ott, a céloldalon is tudunk
+	// generálni további SVG elemeket, és ehhez adni. Bár lehet, hogy minden SVG
+	// generálási feladatot inkább itt hozok létre, egyedi függvéynként.
+	// Ez még formálódik.
+	//</SF>
+		return $this->rootSVG;
 	}
 }
 

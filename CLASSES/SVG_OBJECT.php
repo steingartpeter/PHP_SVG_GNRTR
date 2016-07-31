@@ -7,11 +7,13 @@
 //@-FÜGGŐSÉGEK:
 //×-
 // @-- Alapfile nincsenek függőségek -@
-//-@
 //-×
 //-@
 //@-LEÍRÁS    :
-//Ez a PHP kód azt a feladatot látja el ...
+// Ez a PHP kód generál SVG elemeket. Az SVG elemek itt nem igaz HTML, vagy XML objektumok
+// lesznek hanem csak egyszerű pszeudo class példányok, amiknek a léynegét igazából a 
+// kód tag(member)-juk hordozza. Manipulálsuk tiszta szövegmanuipulációval történik, 
+// beszúrásuk pedig a $code-elemük HTML tartalomba illesztésével. 
 //@-MÓDOSÍTÁSOK :
 //×-
 // @-- ... -@
@@ -20,6 +22,20 @@
 //</M>	
 class SVG_OBJECT{
 	
+	//<nn>
+	// Az SVG_OBJECT osztály tagváltozói:<br>
+	//×-
+	// @-- private $name = a létrehozandó SVG objektum neve -@
+	// @-- private $type = a létrehozandó SVG typusa [g/defs/cicrcl/rect/...] -@
+	// @-- private $code = a létrehozandó SVG objektum kódja, igazából az alapkoncepcióban nem
+	// HTML, vag XML elemekként kezelem az SVG objektumokat, csak szövegként.-@
+	// @-- private $id = a létrehozandó SVG objektum CSS id-je -@
+	// @-- private $class = a létrehozandó SVG objektum CSS class-a -@
+	//-×
+	// Ezeknek a változóknak kell valamilyen értéket adni a konstruktorban. Nyilván
+	// a type ami kötelezően megadandó, a többit csak az esetleges JavaScript felhasnálás,
+	// illetve a formázások alkalmazása miatt érdemes megadni.
+	//</nn>
 	private $name = "";
 	private $type = "";
 	private $code = "";
@@ -28,7 +44,10 @@ class SVG_OBJECT{
 	
 	public function __construct($params = ""){
 	//<SF>
-	//A konstruktor, egy inicializáló objektumot küldhetünk be.
+	// A konstruktor, egy inicializáló objektumot küldhetünk be.
+	// Ha nincs inicializációs objektum egy alapértelmezett SVG:g
+	// objektumot küldünk vissza.<br>
+	//
 	//</SF>
 		if($params == ""){
 			$this->name = "group" .  rand(1,9999);
@@ -53,7 +72,9 @@ class SVG_OBJECT{
 			if(isset($params['name']) && $params['name'] !== "" ){
 				$this->name = $params['name'];
 			}else{
+				//<DEBUG>
 				//$this->name = "group" .  rand(1,9999);
+				//</DEBUG>
 			}
 			
 			if(isset($params['id']) && $params['id'] !== "" ){
@@ -67,7 +88,9 @@ class SVG_OBJECT{
 				$this->class = $params['class'];
 				$this->code .= 'class="' . $this->class . ' ';
 			}else{
+				//<DEBUG>
 				//$this->class = "svg-g-std-" .  rand(1,9999);
+				//</DEBUG>
 			}
 			
 			$this->code .= "></" . $this->type . '>';
