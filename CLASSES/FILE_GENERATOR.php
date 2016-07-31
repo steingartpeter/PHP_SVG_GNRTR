@@ -167,6 +167,10 @@ class PAGE_GNRTR{
 		$grp->setCODE($cd);
 		return $grp;
 	}
+
+	public function getRootSVG(){
+		
+	}
 }
 
 ?>

@@ -194,7 +194,16 @@ class SVG_OBJECT{
 		return $this;
 	}
 	
-	
+	public function getOneDecisionShape($params = ""){
+	//<SF>
+	// Ez a függvény egy hastzögletű elemet generál, ami egy szöveg elemet tartalmaz,
+	// és egy döntési lehetőséget tartalmaz.
+	// Alapértelmezésben egy YES, és egy NO ága van.
+	//</SF>
+		if($params = ""){
+			
+		}
+	}
 	
 }
 
