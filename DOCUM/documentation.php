@@ -5,6 +5,27 @@
 	<link rel="stylesheet" href="../CSS/docum.css"/>
 </head>
 <body>
+
+<div title="kattints a megynitáshoz/bezáráshoz" class="docDiv" id="FILE_GENERATOR">
+	<div class="closeNext">
+		<h1>Általános leírás a projekthez</h1>
+	</div>
+	<div class="toBeClosed">
+		<div class="subFunc">
+			Ez az osztály tartalmazza a SVG objektumokat generáló kódot.
+		</div>
+		<h4 class="funcNm">FILE_GENERATOR.php - public function __construct()</h4>
+		<div class="subFunc">
+			Az osztály konstruktora, még nemtom kell-e ide valami...
+		</div>
+		<div class="normNote">
+			Létrehozzuk az alap SVG objektumunkat, azzal, 
+			hogy egy new SVG objektumot hozumnk létre.<br>
+			- $svgCntnr
+		</div>
+	</div>
+</div>
+
 <div title="kattints a megynitáshoz/bezáráshoz" class="docDiv" id="FILE_GENERATOR">
 	<div class="closeNext">
 		<h1>FILE_GENERATOR.php - PHP_SVG_GNRTR</h1>

@@ -89,7 +89,7 @@ class PAGE_GNRTR{
 		return $rootSvg;
 	}
 	
-	private function genBSC_BG_SVG(){
+	private function genBSC_BG_SVG($wdth = 15, $hght = 20){
 	//<SF>
 	//Alap SVG háttér generálása.
 	//</SF>
@@ -97,10 +97,10 @@ class PAGE_GNRTR{
 		$prms['id'] = "baseGridGrp";
 		$grid = new SVG_OBJECT($prms);
 		$code = "<g id=\"baseGridGrp\">";
-		for($i=0; $i<15; $i++){
+		for($i=0; $i<$wdth; $i++){
 			$code .= '<path d="M' . ($i*64) . ' 0 l0 1280" class="bgGrid"></path>';
 		}
-		for($i=0; $i<20; $i++){
+		for($i=0; $i<$hght; $i++){
 			$code .= '<path d="M0 ' . ($i*64) . ' l960 0" class="bgGrid"></path>';
 		}
 		$code .= "</g>";
