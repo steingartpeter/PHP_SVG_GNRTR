@@ -6,7 +6,8 @@
 //@-LÉTREHOZVA:  2016. júl. 26.-@
 //@-FÜGGŐSÉGEK:
 //×-
-// @-- SVG_OBJECT.php-@
+// @-- SVG objektumok generálása: SVG_OBJECT.php -@
+// @-- Konstansok: CLASSES/CONSTANTS.php -@
 //-@
 //-×
 //@-LEÍRÁS    :
@@ -18,7 +19,7 @@
 //-×
 //-×
 //</M>
-		
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/CONSTANTS.php';
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/SVG_OBJECT.php';	
 
 class PAGE_GNRTR{
@@ -28,15 +29,34 @@ class PAGE_GNRTR{
 	
 	private $htmlContent = "";
 	private $rootSVG = "";
+	private $wdInUnits = 15;
+	private $hgInUnits = 20;
 	
-	public function __construct(){
+	public function __construct($w=15,$h=20){
 	//<SF>
 	//Az osztály konstruktora, még nemtom kell-e ide valami...
 	//</SF>
-		$this->rootSVG =  $this->createRootSVG();
+		//<nn>
+		// Amennyiben volt beküldött szélesség, és magasság paraméter, beállítjuk a 
+		// \$wdInUnits, és \$hgInUnits változókat.
+		//</nn>
+		if($this->wdInUnits !== $w){
+			$this->wdInUnits = $w;
+		}
+		if($this->hgInUnits !== $h){
+			$this->hgInUnits = $h;
+		}
+		//<nn>
+		// Miután az alap szélesség, és magasságparamétereket beállítottuk,
+		// létrehozzuk az alap SVG objektumot a rootSvg-t, vagyis inicializáljuk @author stein
+		// $this->rootSVG objektumot.
+		// A továbbiakban, minden újabb SVG objektumot ennek a kódjába teszünk be.
+		// Ezzel pedig a konstruktor befejezte a dolgát.
+		//</nn>
+		$this->rootSVG =  $this->createRootSVG($w,$h);
 	}
 	
-	public function GENRT_BASIC_SITE_BACKGROUND(){
+	public function GENRT_BASIC_SITE_BACKGROUND($w=15,$h=20){
 	//<SF>
 	//Ez az osztály generál egy alap SVG hátteret, aminek szintén több eleme lesz.
 	//</SF>
@@ -48,7 +68,7 @@ class PAGE_GNRTR{
 		//</nn>
 		$svgCntnr = new SVG_OBJECT();
 		
-		$svgCntnr = $this->genBSC_BG_SVG();
+		$svgCntnr = $this->genBSC_BG_SVG($w,$h);
 		$svg = $this->rootSVG;
 		$htmlCnnt = "";
 		
@@ -60,10 +80,31 @@ class PAGE_GNRTR{
 		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
 		
 		
-		$svg->addObject($this->genBSC_BG_SVG());
+		$svg->addObject($svgCntnr);
 		//$svg->addObject($this->tstSVGIcon());
 		//$svg->addObject($this->testShadow());
+		$prms = array();
+		for($i=0;$i<10; $i++){
+			$prms['id'] = "stdCrcl00" . $i;
+			$prms['fill'] = $this->genRNDHEXColor();
+			$prms['class'] = "clsStdCrcl01";
+			$prms['stroke'] = $this->genRNDHEXColor();
+			$prms['stroke-width'] = "8";
+			$prms['r'] = 32;
+			$prms['grd_cx'] = rand(1,10);
+			$prms['grd_cy'] = rand(1,10);
+			$svg->addObject($this->tstBasicCircle($prms));
+		}
 		
+		$prms['id'] = "stdCrcl001";
+		$prms['fill'] = $this->genRNDHEXColor();
+		$prms['class'] = "clsStdCrcl01";
+		$prms['stroke'] = $this->genRNDHEXColor();
+		$prms['stroke-width'] = "8";
+		$prms['r'] = 32;
+		$prms['grd_cx'] = 3;
+		$prms['grd_cy'] = 3;
+		$svg->addObject($this->tstBasicCircle($prms));
 		
 		$htmlCnnt .= $svg->getCODE();
 		$htmlCnnt .= '</div></body>' . PHP_EOL;
@@ -72,7 +113,7 @@ class PAGE_GNRTR{
 		return $htmlCnnt;
 	}
 	
-	private function createRootSVG(){
+	private function createRootSVG($w=15,$h=20){
 	//<SF>
 	// Az alap, közvetlenül a BODY-ba kerülő SVG node.
 	// Ezt érdemes megtartani, és a [SVG_OBJECT] osztály addObject függvényével 
@@ -80,8 +121,8 @@ class PAGE_GNRTR{
 	//</SF>
 		$prmObj = array();
 		$prmObj['id'] = "canvas";
-		$prmObj['width'] = "100%";
-		$prmObj['height'] = "100%";
+		$prmObj['width'] = ($w *64) . "px";
+		$prmObj['height'] = ($h * 64) . "px";
 		$prmObj['type'] = "svg";
 		
 		$rootSvg = new SVG_OBJECT($prmObj);
@@ -89,7 +130,7 @@ class PAGE_GNRTR{
 		return $rootSvg;
 	}
 	
-	private function genBSC_BG_SVG($wdth = 15, $hght = 20){
+	private function genBSC_BG_SVG($wdth, $hght){
 	//<SF>
 	//Alap SVG háttér generálása.
 	//</SF>
@@ -98,10 +139,12 @@ class PAGE_GNRTR{
 		$grid = new SVG_OBJECT($prms);
 		$code = "<g id=\"baseGridGrp\">";
 		for($i=0; $i<$wdth; $i++){
-			$code .= '<path d="M' . ($i*64) . ' 0 l0 1280" class="bgGrid"></path>';
+			$code .= '<path d="M' . ($i*64) . ' 0 l0 '. ($hght * STD_GRIDUNIT_HEIGHT) .
+			'" class="bgGrid"></path>';
 		}
 		for($i=0; $i<$hght; $i++){
-			$code .= '<path d="M0 ' . ($i*64) . ' l960 0" class="bgGrid"></path>';
+			$code .= '<path d="M0 ' . ($i*64) . ' l' . ($wdth * STD_GRIDUNIT_WIDTH) . 
+			' 0" class="bgGrid"></path>';
 		}
 		$code .= "</g>";
 		$grid->setCODE($code);
@@ -181,6 +224,31 @@ class PAGE_GNRTR{
 	// Ez még formálódik.
 	//</SF>
 		return $this->rootSVG;
+	}
+
+	public function  tstBasicCircle($prmObj = ""){
+		$svgGnrtr = new SVG_OBJECT();
+		if($prmObj == ""){
+			$crcl = $svgGnrtr->getOneCircle();
+		}else{
+			$crcl = $svgGnrtr->getOneCircle($prmObj);
+		}
+		
+		return $crcl;
+	}
+	
+	
+	private function genRNDHEXColor(){
+	//<SF>
+	// Ez a függvény egy véletlengenerált szinkódot ad vissza.
+	//</SF>
+		$col = "#";
+		for($i=0; $i<3; $i++){
+			$nr = rand(1,255);
+			$str = substr("0" . strtoupper(dechex($nr)),-2);
+			$col .= $str;
+		}
+		return $col;
 	}
 }
 

@@ -6,7 +6,7 @@
 //@-LÉTREHOZVA:  2016. júl. 26.-@
 //@-FÜGGŐSÉGEK:
 //×-
-// @-- Alapfile nincsenek függőségek -@
+// @-- Konstansok: CLASSES/CONSTANTS.php -@
 //-×
 //-@
 //@-LEÍRÁS    :
@@ -20,6 +20,8 @@
 //-×
 //-×
 //</M>	
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/CONSTANTS.php';
+	
 class SVG_OBJECT{
 	
 	//<nn>
@@ -41,6 +43,10 @@ class SVG_OBJECT{
 	private $code = "";
 	private $id = "";
 	private $class = "";
+	private $width = "";
+	private $height = "";
+	
+	
 	
 	public function __construct($params = ""){
 	//<SF>
@@ -55,6 +61,8 @@ class SVG_OBJECT{
 			$this->id = "svg-grp-" . rand(1,9999);
 			$this->code = "<g id=\"" . $this->id . "\">";
 			$this->class = "baseSvgGrp";
+			$this->width = "64px";
+			$this->height = "64px";
 			
 		}elseif(is_array($params)){
 			//<nn>
@@ -91,6 +99,19 @@ class SVG_OBJECT{
 				//<DEBUG>
 				//$this->class = "svg-g-std-" .  rand(1,9999);
 				//</DEBUG>
+			}
+			
+			if(isset($params['width']) && $params['width'] !== "" ){
+				$this->width = $params['width'];
+				$this->code .= 'width="' . $this->width . '" ';
+			}else{
+				
+			}
+			if(isset($params['height']) && $params['height'] !== "" ){
+				$this->height = $params['height'];
+				$this->code .= 'height="' . $this->height . '" ';
+			}else{
+			
 			}
 			
 			$this->code .= "></" . $this->type . '>';
@@ -179,6 +200,148 @@ class SVG_OBJECT{
 	//<SF>
 	//Alap svg:Circle objektum létrehozása
 	//</SF>
+		
+		//<nn>
+		// Az objektum létrehozása minden esetben így történik:
+		//×-
+		// @-- Mivel a függvény egy adott objektumtipusra vonatkozik, így azzal
+		// inicializálhatjuk az objektum code elemét, pl.: circel, rect, defs, stb-@
+		// @-- Ezután megvizsgáljuk, hogy  volt-e beküldött paraméterobjektum -@
+		// @-- Ha nem volt legeneráljuk a standard kódot, és visszaadjuk az objektumot -@
+		// @-- Ha volt, akkor végigmegyünk az elemeken, és ha volt beküldött érték,
+		// akkor azt, ha nem volt, akkor az alapértelmezett értéket állítjuk be.-@
+		//-×
+		// Első lépésként megnyitjuk az objektum code elemét. Erről tudjuk, hogy 
+		// &quot;&gt;circle &quot; lesz a kezdete. Ezenkivül még a tipusa [tye] 
+		// is biztos: &quot; cicrcle &quot;.
+		//</nn>
+		$this->code = '<circle ';
+		
+		$this->type = "circle";
+		
+		//<nn>
+		// Megvizsgáljuk volt-e beküldött paraméter.
+		//×-
+		// @-- Ha nem, minden alapértelemezett értékkel lesz beállítva. -@
+		// @-- Ha igen,m egynként szépen végigsétálunk rajta. -@
+		//-×
+		//</nn>
+		if($params == ""){
+			$this->class = "stdCrcl";
+			$this->id = "crclId" . rand(1,999);
+			$this->type = "circle";
+			$cx = STD_GRIDUNIT_HEIGHT/2;
+			$cy = STD_GRIDUNIT_WIDTH/2;
+			$r = STD_GRIDUNIT_HEIGHT/2;
+			$fill = "#FF0000";
+			$style = 'fill:' . $fill . ';stroke:#FFFF00;stroke-width:3;';
+		}else{
+			//<nn>
+			// Class megadása, ha bejött paraméterelem, akkor azzal, ha nem
+			// akkor az alapértelemzett értékkel.
+			//</nn>
+			if(isset($params["class"]) && $params["class"] !== ""){
+				$this->class = $params["class"];
+			}else{
+				$this->class = "stdCrcl";
+			}
+			//<nn>
+			// ID megadása, ha bejött paraméterelem, akkor azzal, ha nem
+			// akkor az alkapértelemzett értékkel.
+			//</nn>
+			if(isset($params["id"]) && $params["id"] !== ""){
+				$this->id = $params["id"];
+			}else{
+				$this->id = "crclId" . rand(1,999);
+			}
+			//<nn>
+			// cx [középpont x koordináta] megadása, vagy 
+			// grd_cx [középpont x koordináta] megadása, [az alapháló lépésközei szerint]
+			// ha bejött paraméterelem, akkor azzal, ha nem
+			// akkor az alkapértelemzett értékkel [32].
+			//</nn>
+			if(isset($params["cx"]) && $params["cx"] !== ""){
+				$cx = $params["cx"];
+			}elseif(isset($params["grd_cx"]) && $params["grd_cx"] !== ""){
+				$cx = ($params["grd_cx"]*64 - (STD_GRIDUNIT_WIDTH/2));
+			}else{
+				$cx = 32;
+			}
+			
+			//<nn>
+			// cy [középpont y koordináta] megadása,
+			// ha bejött paraméterelem, akkor azzal, ha nem
+			// grd_cy [középpont y koordináta] megadása, [az alapháló lépésközei szerint]
+			// akkor az alkapértelemzett értékkel [32].
+			//</nn>
+			if(isset($params["cy"]) && $params["cy"] !== ""){
+				$cy = $params["cy"];
+			}elseif(isset($params["grd_cy"]) && $params["grd_cy"] !== ""){
+				//<nn>
+				// Itt számoljuk ki a koordinátát a haló koordinátából.
+				// Bár a számlálás 0-tól indul, amikor a képernyőkoordinátákat
+				// számoljuk úgy teszünk mintha 1 el kezdenénk. SZóval az első
+				// négyzetrácsba kerülő koordináták (1,1). Emiatt, hogy ennek
+				// középpontját kapjuk meg le kell vonnunk a hálócellák magasságának
+				// felét:<br/>
+				// $params["grd_cy"]*64 - 32.
+				//</nn>
+				$cy = ($params["grd_cy"]*64 - (STD_GRIDUNIT_HEIGHT/2));
+			}else{
+				$cy = 32;
+			}
+			
+			//<nn>
+			// r [sugár] megadása, ha bejött paraméterelem, akkor azzal, ha nem
+			// akkor az alkapértelemzett értékkel [32].
+			//</nn>
+			if(isset($params["r"]) && $params["r"] !== ""){
+				$r = $params["r"];
+			}else{
+				$r = 32;
+			}
+		
+			//<nn>
+			// r [sugár] megadása, ha bejött paraméterelem, akkor azzal, ha nem
+			// akkor az alkapértelemzett értékkel [32].
+			//</nn>
+			if(isset($params["fill"]) && $params["fill"] !== ""){
+				$fill = $params["fill"];
+			}else{
+				$fill = 32;
+			}
+			
+			//<nn>
+			// Innentől a style elem kialakítása van soron, alapértelemzésben beteszem
+			// a fill-t, de megadható még itt a 
+			//×-
+			// @-- stroke -@
+			// @-- stroke-width -@
+			// @-- ... -@
+			//-×
+			//</nn>
+			$style = "fill:" . $fill . ";";
+			if(isset($params['stroke']) && $params['stroke']!== ""){
+				$style .= "stroke:" . $params["stroke"] . ";"; 
+			}else{
+				$style .= "stroke:#FFFF00;";
+			}
+			
+			if(isset($params['stroke-width']) && $params['stroke-width']!== ""){
+				$style .= "stroke-width:" . $params["stroke-width"] . "px;";
+				$r = $r - ($params['stroke-width']/2);
+			}else{
+				$style .= "stroke-width:3px;";
+			}
+		}
+		
+		$this->code .= 'id="' . $this->id . '" ';
+		$this->code .= 'class="' . $this->class .'" ';
+		$this->code .= 'cx="' . $cx .'" ';
+		$this->code .= 'cy="' . $cy .'" ';
+		$this->code .= 'r="' . $r .'" ';
+		$this->code .= 'style="' . $style .'" ';
+		$this->code .= '/>';
 		return $this;
 	}
 	

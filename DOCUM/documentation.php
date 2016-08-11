@@ -11,12 +11,50 @@
 		<h1>Általános leírás a projekthez</h1>
 	</div>
 	<div class="toBeClosed">
+		<h4 class="funcNm">A projekt általános leírása</h4>
 		<div class="subFunc">
-			Ez az osztály tartalmazza a SVG objektumokat generáló kódot.
+			A projekt célja, hogy valamilyen köztes információhordozó (standard struktúrával, pl. JSON file) alapján, automatikusan generáljon a PHP kód a szerveren SVG tartalmú HTML lapokat.<br>
+			Ezeket lehetne aztán vizuális dokumentáció készítésre használni.
+			Ez a módszer első osztályú lenne arra, hogy gyorsan, és hatékonyan
+			készítsek áttekinthető ábrákat például logikai folyamatokról, vagy programfutási
+			sémákról.<br/> A projekt szükségességét azok az esetek indokolják, amikor egy-egy régi
+			projekt karbantartása esetén, esetleg hiányos dokumentálásom miatt nagyon nehéz
+			újra felidézni a program futásának részleteit. Ilyenkor elhúzódhat a dolog,
+			és egy-egy ilyen grafikus ábra nagyban növelheti a hatékonyságot. <br/>
+			Szintén ismert az az eset is, hogy egy-egy logikai felépítésen kell változtatni,
+			például a Nissan forecast SAP query döntési logikáján. Ilyenkor a laikusokkal való
+			együttműködést nagyban segítheti egy megfelelő logikai ábra, amin a döntéseik
+			folyamatát egyszerűen végig követhetik.
 		</div>
-		<h4 class="funcNm">FILE_GENERATOR.php - public function __construct()</h4>
+		<h4 class="funcNm">A projekt struktúrája</h4>
 		<div class="subFunc">
-			Az osztály konstruktora, még nemtom kell-e ide valami...
+			Pillanatnyilag a projekt két PHP class-ra épül.<br/>
+			Az első az SVG objektumokat reprezentáló osztály: <a href="#SVG_OBJECT">SVG_OBJECT</a>.
+			Ennek a feladata, hogy kezelje az SVG objektumokat, jelesül főképpen azok kódját. Jelenleg a megvalósítás elég
+			egyszerű, nem igazán objektumorientált, viszonylag alacsony szintű. Az SVG objektumokat olyan objektumoknak
+			tételezi, melyek rendelkeznek pár tulajdonsággal, de alapvetően a code, nevű tulajdonság határozza meg őket, ami
+			valóban az SVG objektumok HTML/SVG kódját tartalmazza, és egyből egy-egy HTML lapba szúrható. Maguknak a
+			tulajdonságoknak a megvalósulása sztring manipulációval történik. Pillanatnyilag még az sem kiforrott, hogy milyen
+			mélységben legyenek az SVG elemek felbontva típusokra. <br/>Természetesen az nem okoz problémát, hogy egy rect,
+			vagy egy cicrcle elem külön objektumpéldány legyen, de a meta elemek, defs, lineargradien, stb már problémásabbak.
+			Röviden, ennek az osztálynak a feladata, hogy SVG objektumokat állítson elő, egy bemenő paraméterobjektum
+			elemeinek megfelelően. Ezeket az SVG objektumokat manipulálni is tudja, illetve egymásba illeszteni őket, 
+			majd az így létrejött új, összetett objektumot visszaadni.<br/>
+			<br/><hr><br/>
+			A projekt másik osztálya PAGE_GNRTR class, (a FILE_GENERATOR.php fileban – design hiba, gyenge tervezés ).
+			Ez az osztály szerepét tekintve arról gondoskodik, hogy az SVG generátor osztály egy példányától SVG objektumokat
+			kér, majd ezeket egy általa generált weblap kódjába illeszti.<br/>Az első feladata, hogy egy lap létrehozásakor
+			létrehoz egy rootSVG objektumot, ez történik a konstruktorban.<br/>Ez a <code>createRootSVG</code>
+			tagfüggvénye meghívásával történik. A createRootSVG függvényben példányosítjuk a másik osztályt, a
+			SVG_OBJECT osztályt, aminek során annak konstruktorát már egy paraméterobjektummal hívjuk, így egy
+			SVG objektumot kapunk, ami egy alapszín hátterű, pontozott hálót jelent. A háló a projekt fontos eleme, 
+			64x64-es négyzetekből áll. Ezeket relatív koordinátarendszerként szeretném használni, mind pozicionálásra,
+			mind méretezésre.<br/> Jelen pillanatban, a createRootSVG függvény csak létrehozza a gyökér SVG objektumot,
+			de nem adja hozzá az oldalhoz a kódját.<br>Az SVG objektum akkor kerül hozzáadásra, amikor annak teljes 
+			tartalma a szerveren legenerálódót.<br>Vagyis egy-egy céloldal PHP függvények hívásával generáltatja le 
+			a saját kódját a szerveren.  Emiatt a PAGE_GNRTR osztály egy-egy függvény kell jelenleg, hogy előre megírt kód
+			alapján generáljon le egy-egy oldalt. A későbbiekben ezt az osztály ki fogom bővíteni egy olyan függvénnyel, ami
+			egy megfelelő specifikáció alapján készített adathalmazból (mondjuk JSON file) generál dinamikusan tartalmat.
 		</div>
 		<div class="normNote">
 			Létrehozzuk az alap SVG objektumunkat, azzal, 
@@ -102,7 +140,7 @@
 			a RootSVG objektumához, így elméletileg, ott, a céloldalon is tudunk
 			generálni további SVG elemeket, és ehhez adni. Bár lehet, hogy minden SVG
 			generálási feladatot inkább itt hozok létre, egyedi függvéynként.
-			Ez még formálódik.
+			Ez még formálódik.<br/>
 		</div>
 	</div>
 </div>
