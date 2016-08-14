@@ -391,6 +391,78 @@ class SVG_OBJECT{
 		}
 	}
 	
+	
+	public function genLottoSzelveny(){
+	//<SF>
+	// Ez a függvény egy számmezőt generál, ami egy lottószelvényt reprezentál.
+	// A lényege annyi, hogy csinálunk egy 10X9-es négyzethálót, amibe beírjuk a számokat.
+	// A sorsolást egy másik függvény fogja megvalósítani, ami majd átlátszó lila pöttyöket
+	// tesz a kihúzott számok elé.
+	//</SF>	
+		$this->code = '<g class="lottoSzelveny" id="aktSzelveny001" transform="translate(30,30)">';
+		$w=32;
+		$h=32;
+		for($i=0; $i<9; $i++){
+			for($j=0;$j<10;$j++){
+				$this->code .= '<g id="cell' . $i . '-' . $j . '">';
+				$this->code .= '<rect x="' . (($j*32)+($j*2)) .'" ';
+				$this->code .= 'y="' . (($i*32)+($i*2)) . '" ';
+				$this->code .= 'width="32" ';
+				$this->code .= 'height="32" ';
+				$this->code .= 'fill="#FFFFFF" ';
+				$this->code .= 'style="stroke:#050505;stroke-width:1px" ';
+				$this->code .= '></rect>';
+				$this->code .= '<text '; 
+				$this->code .= 'x="' . ((($j*32)+($j*2))+16) .'" ';
+				$this->code .= 'y="' . ((($i*32)+($i*2))+25) . '" ';
+				$this->code .= 'style="fill:#050505;stroke:none;font-size:25px;text-anchor:middle;"';
+				$this->code .= '>' . (($i*10)+($j*1)+1) . '</text>';
+				$this->code .= '</g>';
+			}
+		}
+		
+		$szamok = array();
+		for($i=0; $i<5; $i++){
+			$szam = rand(1,90);
+			if(in_array($szam, $szamok) == false){
+				array_push($szamok, $szam);
+			}else{
+				$i = $i-1;
+			}
+		}
+		//<DEBUG>
+		//...
+		//echo "<p><pre>";
+		//print_r($szamok);
+		//echo "</pre></p>";
+		//</DEBUG>
+		
+		$this->code .= '<g id="szamJelolok">';
+		
+		for($i=0; $i<sizeof($szamok); $i++){
+			if($szamok[$i] % 10 !== 0){
+				$x = (($szamok[$i] % 10)*32) + ((($szamok[$i] % 10)*2)) - 18;
+			}else{
+				$x = 322;
+			}
+			$y = ((ceil($szamok[$i]/10))*32) + (((ceil($szamok[$i]/10))*2)) - 18 ;
+			$this->code .= '<circle ';
+			$this->code .= 'cx="' . $x . '" cy="' . $y . '" r="14"';
+			$this->code .= 'fill="#FF00FF" opacity=".3" value="' . $szamok[$i] .  '"';
+			$this->code .= '></circle>';
+		}	
+		$this->code .= '</g>';
+		
+		$this->code .= '<g class="button01">';
+		$this->code .= '<rect id="regenBtn" x="400" y="25" height="40" width="100" rx="10" ry="10" onCLick="refresh()" ';
+		$this->code .= 'fill="#CDCDCD" stroke="#FFFFFF" stroke-width="3" ';
+		$this->code .= '></rect>';
+		$this->code .= '<text x="450" y="50" font-weight="bold" text-anchor="middle">' . "ÚJRA" . '</text></g>';
+		
+		$this->code .= '</g>';
+		return $this;
+	}
+	
 }
 
 ?>

@@ -32,3 +32,8 @@ svg rect.emptyBgRect{
 	fill:none;
 	opacity:0;
 }
+.button01 rect:hover{
+	fill:#A9A9A9;
+	stroke-width:5;
+	stroke:#FF9999;
+}

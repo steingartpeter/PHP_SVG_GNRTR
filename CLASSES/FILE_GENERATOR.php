@@ -108,47 +108,9 @@ class PAGE_GNRTR{
 		
 		$htmlCnnt .= $svg->getCODE();
 		$htmlCnnt .= '</div></body>' . PHP_EOL;
-		$htmlCnnt .= '</html>';
+		$htmlCnnt .= '</html>' . PHP_EOL;
 		
 		return $htmlCnnt;
-	}
-	
-	private function createRootSVG($w=15,$h=20){
-	//<SF>
-	// Az alap, közvetlenül a BODY-ba kerülő SVG node.
-	// Ezt érdemes megtartani, és a [SVG_OBJECT] osztály addObject függvényével 
-	// ehhez adni további elemeket.
-	//</SF>
-		$prmObj = array();
-		$prmObj['id'] = "canvas";
-		$prmObj['width'] = ($w *64) . "px";
-		$prmObj['height'] = ($h * 64) . "px";
-		$prmObj['type'] = "svg";
-		
-		$rootSvg = new SVG_OBJECT($prmObj);
-
-		return $rootSvg;
-	}
-	
-	private function genBSC_BG_SVG($wdth, $hght){
-	//<SF>
-	//Alap SVG háttér generálása.
-	//</SF>
-		$prms = array();
-		$prms['id'] = "baseGridGrp";
-		$grid = new SVG_OBJECT($prms);
-		$code = "<g id=\"baseGridGrp\">";
-		for($i=0; $i<$wdth; $i++){
-			$code .= '<path d="M' . ($i*64) . ' 0 l0 '. ($hght * STD_GRIDUNIT_HEIGHT) .
-			'" class="bgGrid"></path>';
-		}
-		for($i=0; $i<$hght; $i++){
-			$code .= '<path d="M0 ' . ($i*64) . ' l' . ($wdth * STD_GRIDUNIT_WIDTH) . 
-			' 0" class="bgGrid"></path>';
-		}
-		$code .= "</g>";
-		$grid->setCODE($code);
-		return $grid;
 	}
 	
 	public function tstSVGIcon(){
@@ -235,6 +197,89 @@ class PAGE_GNRTR{
 		}
 		
 		return $crcl;
+	}
+	
+	public function genLottoSzelveny(){
+	//<SF>
+	//Ez a függvény egy lottószelvényt generál.
+	// A működése ugyanaz mint a GENRT_BASIC_SITE_BACKGROUND függvénynek.
+	// Először a példány rootSVG objektumára szerzünk egy referenciát, majd
+	// egy SVG_OBJECT példánnyal legeneráltatjuk a tartalmat, ami ezúttal 
+	// egy lottószelvény lesz. 
+	// A generált svg tartalom kódja az oldal HTML kódjába kerül, majd elküldjük a 
+	// kliensnek.
+	//</SF>
+		$svg = $this->rootSVG;
+		$htmlCnnt = "";
+		$svgGnrtr = new SVG_OBJECT();
+		
+		$htmlCnnt .= '<!DOCTYPE html>' . PHP_EOL;
+		$htmlCnnt .= '<head>' . PHP_EOL;
+		$htmlCnnt .= '<meta charset="utf-8">';
+		$htmlCnnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
+		$htmlCnnt .= '</head>' . PHP_EOL;
+		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
+		
+		$szelveny = $svgGnrtr->genLottoSzelveny();
+		$svg->addObject($szelveny);
+		
+		$htmlCnnt .= $svg->getCODE();
+		$htmlCnnt .= '</div>';
+		$htmlCnnt .= '<script>';
+		$htmlCnnt .= 'function refresh(){';
+		//                      document.getElementById
+		$htmlCnnt .= 'var btn = document.getElementById("regenBtn"); ';
+		$htmlCnnt .= 'location.reload(); ';
+		$htmlCnnt .= 'console.log("Kattintás kezelő"); ';
+		$htmlCnnt .= '}';
+		$htmlCnnt .= '</script>';
+		$htmlCnnt .= '</body>' . PHP_EOL;
+		$htmlCnnt .= '</html>' . PHP_EOL;
+		
+		return $htmlCnnt;
+	}
+	
+	private function createRootSVG($w=15,$h=20){
+		//<SF>
+		// Az alap, közvetlenül a BODY-ba kerülő SVG node.
+		// Ezt érdemes megtartani, és a [SVG_OBJECT] osztály addObject függvényével
+		// ehhez adni további elemeket.
+		//</SF>
+		$prmObj = array();
+		$prmObj['id'] = "canvas";
+		$prmObj['width'] = ($w *64) . "px";
+		$prmObj['height'] = ($h * 64) . "px";
+		$prmObj['type'] = "svg";
+	
+		$rootSvg = new SVG_OBJECT($prmObj);
+	
+		return $rootSvg;
+	}
+	
+	
+	/*************************************************************************************************************/
+	/******************************              ___PRIVATE SECTION___              ******************************/
+	/*************************************************************************************************************/
+	
+	private function genBSC_BG_SVG($wdth, $hght){
+		//<SF>
+		//Alap SVG háttér generálása.
+		//</SF>
+		$prms = array();
+		$prms['id'] = "baseGridGrp";
+		$grid = new SVG_OBJECT($prms);
+		$code = "<g id=\"baseGridGrp\">";
+		for($i=0; $i<$wdth; $i++){
+			$code .= '<path d="M' . ($i*64) . ' 0 l0 '. ($hght * STD_GRIDUNIT_HEIGHT) .
+			'" class="bgGrid"></path>';
+		}
+		for($i=0; $i<$hght; $i++){
+			$code .= '<path d="M0 ' . ($i*64) . ' l' . ($wdth * STD_GRIDUNIT_WIDTH) .
+			' 0" class="bgGrid"></path>';
+		}
+		$code .= "</g>";
+		$grid->setCODE($code);
+		return $grid;
 	}
 	
 	
