@@ -1,0 +1,499 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>SVG Tables</title>
+	<style>
+		#svg-canvas{
+			background-color:#E8E8D8;
+			border:2px solid #C7C7B7;
+		}
+		.table-grid{
+			background-color:#EFEFEF;
+		}
+		.tblHeader{
+			font-family:"Courier new";
+			fill:#020202;
+			stroke:none;
+			font-size:22px;
+			font-weight:bold;
+			text-anchor:middle;
+		}
+		.fldName{
+			font-family:"Courier new";
+		}
+		.stdHdr1{
+			fill:#FFFFFF;
+			stroke:none;
+			font-family:"Courier New";
+			font-weight:bold;
+		}
+		.fldOUT{
+			font-weight:bold;
+			fill:#252599;
+			text-decoration:underline;
+		}
+		.fldNone{
+			fill:#ADADAD;
+		}
+		path.stdTableLink{
+			fill:none;
+			stroke:#00AADD;
+			stroke-width:3;
+			opacity:.65;
+			/*stroke-dasharray:7,3;*/
+		}
+		path.stdTableLink:hover{
+			fill:none;
+			
+			stroke:#0055FF;
+			stroke-width:4;
+			opacity:1;
+		}
+		div#tooltipDiv{
+			position:absolute;
+			font-family:"Tahoma";
+			font-size:18px;
+			box-shadow:4px 4px 6px #050505;
+			border-radius:5px;
+		}
+	</style>
+</head>
+<body>
+<svg id="svg-canvas" width="100%" height="100%">
+	<defs>
+		<marker id="arrowhead" markerWidth="50" markerHeight="50" refX="0" refY="2" orient="auto">
+      <!-- <polygon points="0 0, 10 3.5, 0 7" /> -->
+			<polygon points="0 0, 7 2, 0 4" fill="#0099CC" stroke-width="0"/>
+    </marker>
+		<marker id="point10" markerWidth="50" markerHeight="50" refX="2" refY="3" orient="auto">
+      <!-- <polygon points="0 0, 10 3.5, 0 7" /> -->
+			<circle cx="3" cy="3" r="3" fill="#0099CC" stroke-width="0"/>
+    </marker>
+	</defs>
+	
+	<!--
+		******************************************************************************************
+		**************************************	LIPS TÁBLA  **************************************
+		******************************************************************************************
+	-->
+	<g id="tableLIPS" transform="translate(0,310)">
+		<rect x="10" y="10" height="365" width="400" fill="#EFEFEF"></rect>
+		<g id="texts">
+			<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+			<text class="tblHeader" x="200" y="35">LIPS</text>
+			<!-- HEADER background RECTS -->
+			<rect class="hdrBGround" x="10" y="50" height="25" width="100" fill="#7C7C7C"/>
+			<rect class="hdrFrm" x="13" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1"/>
+			
+			<rect class="hdrBGround" x="110" y="50" height="25" width="100" fill="#7C7C7C"/>
+			<rect class="hdrFrm" x="113" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1"/>
+			
+			<rect class="hdrBGround" x="210" y="50" height="25" width="200" fill="#7C7C7C"/>
+			<rect class="hdrFrm" x="213" y="53" height="19" width="193" fill="none" stroke="#000000" stroke-width="1"/>
+			
+			<!-- SPECIAL background RECTS -->
+			<rect class="lnkBgrnd" x="210" y="75" height="25" width="200" fill="#B4DCB4"/>
+			<rect class="lnkBgrnd" x="210" y="150" height="25" width="200" fill="#B4DCB4"/>
+			
+			<!-- HEADER TEXTS -->
+			<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="120" y="68">Tech.Name</text><text class="stdHdr1" x="220" y="68">Role</text>
+			<!-- CELL TEXTS -->
+			<text class="stdDesc" x="20" y="95">Delivery</text><text class="fldName" x="120" y="95">VBELN</text><text class="fldName" x="220" y="95">LINK</text>
+			<text class="stdDesc" x="20" y="120">Item</text><text class="fldName" x="120" y="120">POSNR</text><text class="fldOUT" x="220" y="120">OUT</text>
+			<text class="stdDesc" x="20" y="145">ItCa</text><text class="fldName" x="120" y="145">PSTYV</text><text class="fldOUT" x="220" y="145">OUT</text>
+			<text class="stdDesc" x="20" y="170">Material</text><text class="fldName" x="120" y="170">MATNR</text><text class="fldOUT" x="220" y="170">OUT-LINK</text>
+			<text class="stdDesc" x="20" y="195">Plnt</text><text class="fldName" x="120" y="195">WERKS</text><text class="fldNone" x="220" y="195">NONE</text>
+			<text class="stdDesc" x="20" y="220">SLoc</text><text class="fldName" x="120" y="220">LGORT</text><text class="fldNone" x="220" y="220">NONE</text>
+			<text class="stdDesc" x="20" y="245">Del.qtty</text><text class="fldName" x="120" y="245">LFIMG</text><text class="fldNone" x="220" y="245">NONE</text>
+			<text class="stdDesc" x="20" y="270">Description</text><text class="fldName" x="120" y="270">ARKTX</text><text class="fldNone" x="220" y="270">NONE</text>
+			<text class="stdDesc" x="20" y="295">Ref.doc.</text><text class="fldName" x="120" y="295">VGBEL</text><text class="fldOUT" x="220" y="295">OUT</text>
+			<text class="stdDesc" x="20" y="320">RefItm</text><text class="fldName" x="120" y="320">VGPOS</text><text class="fldOUT" x="220" y="320">OUT</text>
+			<text class="stdDesc" x="20" y="345">MvT</text><text class="fldName" x="120" y="345">BWART</text><text class="fldNone" x="220" y="345">NONE</text>
+			<text class="stdDesc" x="20" y="370">MTy</text><text class="fldName" x="120" y="370">BWLVS</text><text class="fldNone" x="220" y="370">NONE</text>
+		</g>
+		<g class="table-grid" transform="translate(10,10)">
+			
+			<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+			<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="165" y2="165" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="190" y2="190" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="215" y2="215" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="240" y2="240" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="265" y2="265" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="290" y2="290" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="315" y2="315" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="340" y2="340" stroke="#000000" stroke-width="1" />
+			<line x1="0" x2="400" y1="365" y2="365" stroke="#000000" stroke-width="3" />
+
+			
+			<line x1="0" x2="0" y1="0" y2="365" stroke="#000000" stroke-width="3" />
+			<line x1="100" x2="100" y1="40" y2="365" stroke="#000000" stroke-width="1" />
+			<line x1="200" x2="200" y1="40" y2="365" stroke="#000000" stroke-width="1" />
+			<!-- <line x1="30" x2="30" y1="0" y2="400" stroke="#000000" stroke-width="1" /> -->
+			<line x1="400" x2="400" y1="0" y2="365" stroke="#000000" stroke-width="3" />
+		</g>
+	</g>
+	
+	<!--
+		******************************************************************************************
+		**************************************	LIKP TÁBLA  **************************************
+		******************************************************************************************
+	-->
+	<g id="tableLIPS" transform="translate(500,300)">
+			<rect x="10" y="10" height="440" width="400" fill="#EFEFEF"></rect>
+			<g id="likp-texts">
+				<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+				<text class="tblHeader" x="200" y="35">LIKP</text>
+				
+				<rect class="hdrBGround" x="10" y="50" height="25" width="200" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="13" y="53" height="19" width="194" fill="none" stroke="#000000" stroke-width="1"/>
+				
+				<rect class="hdrBGround" x="210" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="213" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1"/>
+				
+				<rect class="hdrBGround" x="310" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="313" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1"/>
+				
+				
+				<!-- SPECIAL background RECTS -->
+				<rect class="lnkBgrnd" x="310" y="75" height="25" width="100" fill="#B4DCB4"/>
+				<rect class="lnkBgrnd" x="310" y="300" height="25" width="100" fill="#B4DCB4"/>
+				<rect class="lnkBgrnd" x="310" y="375" height="25" width="100" fill="#B4DCB4"/>
+				
+				<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="220" y="68">Tech.Name</text><text class="stdHdr1" x="320" y="68">Role</text>
+				
+				<text class="stdDesc" x="20" y="95">Delivery</text><text class="fldName" x="220" y="95">VBELN</text><text class="fldName" x="320" y="95">LINK</text>
+				<text class="stdDesc" x="20" y="120">Created by</text><text class="fldName" x="220" y="120">ERNAM</text><text class="fldOUT" x="320" y="120">OUT</text>
+				<text class="stdDesc" x="20" y="145">Time</text><text class="fldName" x="220" y="145">ERZET</text><text class="fldOUT" x="320" y="145">OUT</text>
+				<text class="stdDesc" x="20" y="170">Created on</text><text class="fldName" x="220" y="170">ERDAT</text><text class="fldOUT" x="320" y="170">OUT</text>
+				<text class="stdDesc" x="20" y="195">Shipping Point/Receiving Pt</text><text class="fldName" x="220" y="195">VSTEL</text><text class="fldNone" x="320" y="195">NONE</text>
+				<text class="stdDesc" x="20" y="220">Sales Organization</text><text class="fldName" x="220" y="220">VKORG</text><text class="fldOUT" x="320" y="220">OUT</text>
+				<text class="stdDesc" x="20" y="245">Route</text><text class="fldName" x="220" y="245">ROUTE</text><text class="fldOUT" x="320" y="245">OUT</text>
+				<text class="stdDesc" x="20" y="270">Ship-to party</text><text class="fldName" x="220" y="270">KUNNR</text><text class="fldNone" x="320" y="270">NONE</text>
+				<text class="stdDesc" x="20" y="295">Billing Date</text><text class="fldName" x="220" y="295">FKDAT</text><text class="fldOUT" x="320" y="295">OUT</text>
+				
+				<text class="stdDesc" x="20" y="320">Sales organization</text><text class="fldName" x="220" y="320">VKOIV</text><text class="fldOUT" x="320" y="320">OUT-LINK</text>
+				
+				<text class="stdDesc" x="20" y="345">Int.co billing div.</text><text class="fldName" x="220" y="345">SPAIV</text><text class="fldNone" x="320" y="345">NONE</text>
+				<text class="stdDesc" x="20" y="370">Intercomp.bill.type</text><text class="fldName" x="220" y="370">FKAIV</text><text class="fldOUT" x="320" y="370">OUT</text>
+				<text class="stdDesc" x="20" y="395">Cust.inter-co.bill.</text><text class="fldName" x="220" y="395">KUNIV</text><text class="fldOUT" x="320" y="395">OUT-LINK</text>
+				<text class="stdDesc" x="20" y="420">Route Schedule</text><text class="fldName" x="220" y="420">AULWE</text><text class="fldNone" x="320" y="420">NONE</text>
+				<text class="stdDesc" x="20" y="445">Staging Area</text><text class="fldName" x="220" y="445">LGBZO</text><text class="fldOUT" x="320" y="445">OUT</text>
+			</g>
+			
+			
+			<g class="table-grid" transform="translate(10,10)">
+				<!-- LIKP - VÍZSZIINTES VONALAK -->
+				<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+				<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="165" y2="165" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="190" y2="190" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="215" y2="215" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="240" y2="240" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="265" y2="265" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="290" y2="290" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="315" y2="315" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="340" y2="340" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="365" y2="365" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="390" y2="390" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="415" y2="415" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="440" y2="440" stroke="#000000" stroke-width="3" />
+				
+				<!-- LIKP - FÜGGŐLEGES VONALAK -->
+				<line x1="0" x2="0" y1="0" y2="440" stroke="#000000" stroke-width="3" />
+				<line x1="200" x2="200" y1="40" y2="440" stroke="#000000" stroke-width="1" />
+				<line x1="300" x2="300" y1="40" y2="440" stroke="#000000" stroke-width="1" />
+				<line x1="400" x2="400" y1="0" y2="440" stroke="#000000" stroke-width="3" />
+			</g>
+	</g>
+	
+	<!--
+		******************************************************************************************
+		**************************************	VBFA TÁBLA  **************************************
+		******************************************************************************************
+	-->
+	<g id="tableVBFA" transform="translate(1000,50)">
+		<rect x="10" y="10" height="340" width="400" fill="#EFEFEF"></rect>
+			<g id="vbfa-texts">
+				<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+				<text class="tblHeader" x="200" y="35">VBFA</text>
+				
+				<rect class="hdrBGround" x="10" y="50" height="25" width="200" fill="#7C7C7C" />
+				<rect class="hdrFrm" x="13" y="53" height="19" width="194" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="210" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="213" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="310" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="313" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				
+				<!-- SPECIAL background RECTS -->
+				<rect class="lnkBgrnd" x="310" y="75" height="25" width="100" fill="#B4DCB4" />
+				<rect class="lnkBgrnd" x="310" y="100" height="25" width="100" fill="#B4DCB4" />
+				<rect class="fltrBgrnd" x="310" y="175" height="25" width="100"  fill="#FFCCCC" />
+				
+				<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="220" y="68">Tech.Name</text><text class="stdHdr1" x="320" y="68">Role</text>
+				
+				<text class="stdDesc" x="20" y="95">Preceding Document</text><text class="fldName" x="220" y="95">VBELV</text><text class="fldName" x="320" y="95">LINK</text>
+				<text class="stdDesc" x="20" y="120">Preceding item</text><text class="fldName" x="220" y="120">POSNV</text><text class="fldName" x="320" y="120">LINK</text>
+				<text class="stdDesc" x="20" y="145">Subsequent document</text><text class="fldName" x="220" y="145">VBELN</text><text class="fldOUT" x="320" y="145">OUT</text>
+				<text class="stdDesc" x="20" y="170">Subsequent item</text><text class="fldName" x="220" y="170">POSNN</text><text class="fldOUT" x="320" y="170">OUT</text>
+				<text class="stdDesc" x="20" y="195">Subsequent doc. cat.</text><text class="fldName" x="220" y="195">VBTYP_N</text><text font-size="14" class="fldOUT" x="315" y="195">OUT-FILTER</text>
+				<rect id="tstRect" x="310" y="175" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" title="..." onclick="shwFltr01()"/>
+				<text class="stdDesc" x="20" y="220">Quantity</text><text class="fldName" x="220" y="220">RFMNG</text><text class="fldNone" x="320" y="220">NONE</text>
+				<text class="stdDesc" x="20" y="245">Reference value</text><text class="fldName" x="220" y="245">RFWRT</text><text class="fldOUT" x="320" y="245">OUT</text>
+				<text class="stdDesc" x="20" y="270">Statistics currency</text><text class="fldName" x="220" y="270">WAERS</text><text class="fldOUT" x="320" y="270">OUT</text>
+				<text class="stdDesc" x="20" y="295">Created on</text><text class="fldName" x="220" y="295">ERDAT</text><text class="fldOUT" x="320" y="295">OUT</text>
+				<text class="stdDesc" x="20" y="320">Time</text><text class="fldName" x="220" y="320">ERZET</text><text class="fldOUT" x="320" y="320">OUT</text>
+				<text class="stdDesc" x="20" y="345">Billing category</text><text class="fldName" x="220" y="345">FKTYP</text><text class="fldOUT" x="320" y="345">OUT</text>
+
+			</g>
+			
+			
+			<g class="table-grid" transform="translate(10,10)">
+				<!-- VBFA - VÍZSZIINTES VONALAK -->
+				<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+				<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="165" y2="165" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="190" y2="190" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="215" y2="215" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="240" y2="240" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="265" y2="265" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="290" y2="290" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="315" y2="315" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="340" y2="340" stroke="#000000" stroke-width="3" />
+				
+				<!-- VBFA - FÜGGŐLEGES VONALAK -->
+				<line x1="0" x2="0" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+				<line x1="200" x2="200" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+				<line x1="300" x2="300" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+				<line x1="400" x2="400" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+			</g>
+	</g>
+	
+	<!--
+		******************************************************************************************
+		**************************************	A925 TÁBLA  **************************************
+		******************************************************************************************
+	-->
+	<g id="tableA925" transform="translate(1000,500)">
+		<rect x="10" y="10" height="340" width="400" fill="#EFEFEF"></rect>
+			<g id="a925-texts">
+				<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+				<text class="tblHeader" x="200" y="35">A925</text>
+				
+				<rect class="hdrBGround" x="10" y="50" height="25" width="200" fill="#7C7C7C" />
+				<rect class="hdrFrm" x="13" y="53" height="19" width="194" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="210" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="213" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="310" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="313" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				
+				<!-- SPECIAL background RECTS -->
+				<rect class="lnkBgrnd" x="310" y="125" height="25" width="100" fill="#B4DCB4" />
+				<rect class="lnkBgrnd" x="310" y="150" height="25" width="100" fill="#B4DCB4" />
+				<rect class="lnkBgrnd" x="310" y="300" height="25" width="100" fill="#B4DCB4" />
+				<rect class="fltrBgrnd" x="310" y="225" height="25" width="100"  fill="#FFCCCC" />
+				<rect class="fltrBgrnd" x="310" y="100" height="25" width="100"  fill="#FFCCCC" />
+				
+				<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="220" y="68">Tech.Name</text><text class="stdHdr1" x="320" y="68">Role</text>
+				
+				<text class="stdDesc" x="20" y="95">Application</text><text class="fldName" x="220" y="95">KAPPL</text><text class="fldNone" x="320" y="95">NONE</text>
+				<text class="stdDesc" x="20" y="120">Condition type</text><text class="fldName" x="220" y="120">KSCHL</text><text class="fldOUT" x="315" y="120" font-size="14">OUT-FILTER</text>
+				<rect id="tstRect" x="310" y="175" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" onclick="shwFltr02()"/>
+				 <!-- = 'ZPDU' -->
+				<text class="stdDesc" x="20" y="145">Sales Organization</text><text class="fldName" x="220" y="145">VKORG</text><text class="fldName" x="320" y="145">LINK</text>
+				<text class="stdDesc" x="20" y="170">Customer</text><text class="fldName" x="220" y="170">KUNNR</text><text class="fldName" x="320" y="170">LINK</text>
+				<text class="stdDesc" x="20" y="195">Material</text><text class="fldName" x="220" y="195">MATNR</text><text class="fldNone" x="320" y="195">NONE</text>
+				<text class="stdDesc" x="20" y="220">Release status</text><text class="fldName" x="220" y="220">KFRST</text><text class="fldNone" x="320" y="220">NONE</text>
+				<text class="stdDesc" x="20" y="245">Valid to</text><text class="fldName" x="220" y="245">DATBI</text><text class="fldName" x="320" y="245">FILTER</text>
+				<!--  >= 'MA' -->
+				<text class="stdDesc" x="20" y="270">Valid From</text><text class="fldName" x="220" y="270">DATAB</text><text class="fldNone" x="320" y="270">NONE</text>
+				<text class="stdDesc" x="20" y="295">Processing status</text><text class="fldName" x="220" y="295">KBSTAT</text><text class="fldNone" x="320" y="295">NONE</text>
+				<text class="stdDesc" x="20" y="320">Condition record no.</text><text class="fldName" x="220" y="320">KNUMH</text><text class="fldName" x="320" y="320">LINK</text>
+				<text class="stdDesc" x="20" y="345">Table Row</text><text class="fldName" x="220" y="345">LINE_IDX</text><text class="fldNone" x="320" y="345">NONE</text>
+
+
+			</g>
+			
+			
+			<g class="table-grid" transform="translate(10,10)">
+				<!-- A925 - VÍZSZIINTES VONALAK -->
+				<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+				<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="165" y2="165" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="190" y2="190" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="215" y2="215" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="240" y2="240" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="265" y2="265" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="290" y2="290" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="315" y2="315" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="340" y2="340" stroke="#000000" stroke-width="3" />
+				
+				<!-- A925 - FÜGGŐLEGES VONALAK -->
+				<line x1="0" x2="0" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+				<line x1="200" x2="200" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+				<line x1="300" x2="300" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+				<line x1="400" x2="400" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+			</g>
+	</g>
+	
+		<!--
+		******************************************************************************************
+		**************************************	KONP TÁBLA  **************************************
+		******************************************************************************************
+	-->
+	<g id="tableKONP" transform="translate(1500,500)">
+		<rect x="10" y="10" height="140" width="400" fill="#EFEFEF"></rect>
+			<g id="konp-texts">
+				<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+				<text class="tblHeader" x="200" y="35">KONP</text>
+				
+				<rect class="hdrBGround" x="10" y="50" height="25" width="200" fill="#7C7C7C" />
+				<rect class="hdrFrm" x="13" y="53" height="19" width="194" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="210" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="213" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				<rect class="hdrBGround" x="310" y="50" height="25" width="100" fill="#7C7C7C"/>
+				<rect class="hdrFrm" x="313" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+				
+				
+				<!-- SPECIAL background RECTS -->
+				<rect class="lnkBgrnd" x="310" y="125" height="25" width="100" fill="#B4DCB4" />
+				<rect class="fltrBgrnd" x="310" y="100" height="25" width="100"  fill="#FFCCCC" />
+				
+				<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="220" y="68">Tech.Name</text><text class="stdHdr1" x="320" y="68">Role</text>
+				
+				<text class="stdDesc" x="20" y="95">Rate</text><text class="fldName" x="220" y="95">KBETR</text><text class="fldOUT" x="320" y="95">OUT</text>
+				<text class="stdDesc" x="20" y="120">Condition type</text><text class="fldName" x="220" y="120">KSCHL</text><text class="fldOUT" x="315" y="120" font-size="14">OUT-FILTER</text>
+				<text class="stdDesc" x="20" y="145">Sales Organization</text><text class="fldName" x="220" y="145">VKORG</text><text class="fldName" x="320" y="145">LINK</text>
+			</g>
+			
+			
+			<g class="table-grid" transform="translate(10,10)">
+				<!-- KONP - VÍZSZIINTES VONALAK -->
+				<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+				<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+				<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="3" />
+				
+				<!-- KONP - FÜGGŐLEGES VONALAK -->
+				<line x1="0" x2="0" y1="0" y2="140" stroke="#000000" stroke-width="3" />
+				<line x1="200" x2="200" y1="40" y2="140" stroke="#000000" stroke-width="1" />
+				<line x1="300" x2="300" y1="40" y2="140" stroke="#000000" stroke-width="1" />
+				<line x1="400" x2="400" y1="0" y2="140" stroke="#000000" stroke-width="3" />
+			</g>
+	</g>
+	
+	<!--
+		******************************************************************************************
+		************************************	EGYÉB ELEMEK  **************************************
+		******************************************************************************************
+	-->
+	<g id="connections">
+		<!--<path class="stdTableLink" d="M100,100 L150,100 L150,50 L200,50" marker-end="url(#arrowhead)" />
+		<path class="stdTableLink" 
+			d="M100,100 L125,100 C125,100 150,100 150,75 C150,75 150,50 175,50 L200,50" marker-end="url(#arrowhead)"/>
+		<path class="stdTableLink" d="M100,200 C100,100 250,100 250,200 S400,300 400,200" marker-end="url(#arrowhead)" />
+		<path class="stdTableLink" d="M100,100 L125,100 C125,100 150,100 150,75 L150,50 L200,50" marker-end="url(#arrowhead)" />
+		<path d="M100,100 L125,100 C125,100 150,100 150,75 L150,50 L200,50" marker-end="url(#arrowhead)" stroke="#05FF05" fill="none" stroke-width="3" transform="translate(40,20)"/>
+		-->
+		<path class="stdTableLink" d="M395,400 L425,400 C425,400 440,390 440,390 L495,390" marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+		
+		<path class="stdTableLink" d="M395,400 L415,400 C415,400 435,400 435,380 L435,160 C435,160 435,140 455,140 L1000,140" 
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+		
+		<path class="stdTableLink" 
+			d="M385,425 L425,425 C425,425 445,425 445,405 L445,185 C445,185 445,165 465,165 L1000,165" 
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+		
+		<path class="stdTableLink" d="M395,473 L425,473 C425,473 450,473 450,505 L450,760 C450,760 450,780 470,780 L950,780 
+			C950,780 970,780 970,760 L970,720 C970,720 970,690 990,690 L1000,690"
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+			
+		<path class="stdTableLink" d="M895,515 L920,515 C920,515 940,515 940,535  L940,620 C940,620 940,640 960,640 L1000,640"
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+		
+		<path class="stdTableLink" d="M895,615 L920,615 C920,615 940,615 940,635  L940,635 C940,635 940,665 960,665 L1000,665"
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+	</g>
+</svg>
+<div id="tooltipDiv" onclick="vanishme()">
+
+</div>
+</body>
+
+<script>
+	document.onload = function(){
+		console.log("READY!");
+
+	}();
+	function shwFltr01(){
+		//window.alert("Fileter értéke: KLTSCH=5");
+		var div = document.getElementById("tooltipDiv");
+		var x = event.clientX;     // Get the horizontal coordinate
+		var y = event.clientY
+		div.innerHTML='<p class="tltpMsg">A szűrő értéke: 5, ami biztosítja, hogy csak az intercompany számlákat vegyük figyelembe!</p>';
+		div.style.left= (x - 20) + "px";
+		div.style.top= (y + 20) + "px";
+		div.style.width="360px";
+		div.style.height="80px";
+		div.style.backgroundColor="#5F5F5F";
+		div.style.color="#FFFFFF";
+		div.style.border = "thick solid #009999";
+		div.style.opacity=".75";
+		div.style.padding="5";
+	}
+	
+	function shwFltr02(){
+		window.alert("Fileter értéke: KLTSCH=5");
+		var div = document.getElementById("tooltipDiv");
+		var x = event.clientX;     // Get the horizontal coordinate
+		var y = event.clientY
+		div.innerHTML='<p class="tltpMsg">A szűrő értéke: ZPDU, ami biztosítja, hogy csak a PDU árat kérdezzük le!</p>';
+		div.style.left= (x - 20) + "px";
+		div.style.top= (y + 20) + "px";
+		div.style.width="360px";
+		div.style.height="80px";
+		div.style.backgroundColor="#5F5F5F";
+		div.style.color="#FFFFFF";
+		div.style.border = "thick solid #009999";
+		div.style.opacity=".75";
+		div.style.padding="5";
+	}
+	
+	function vanishme(){
+		var div = document.getElementById("tooltipDiv");
+		div.innerHTML="";
+		div.style.left="0x";
+		div.style.top="0px";
+		div.style.width="0px";
+		div.style.height="0px";
+		div.style.opacity=".0";
+	}
+	
+</script>
+</html>
