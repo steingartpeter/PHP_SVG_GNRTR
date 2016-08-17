@@ -316,13 +316,14 @@
 				
 				<text class="stdDesc" x="20" y="95">Application</text><text class="fldName" x="220" y="95">KAPPL</text><text class="fldNone" x="320" y="95">NONE</text>
 				<text class="stdDesc" x="20" y="120">Condition type</text><text class="fldName" x="220" y="120">KSCHL</text><text class="fldOUT" x="315" y="120" font-size="14">OUT-FILTER</text>
-				<rect id="tstRect" x="310" y="175" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" onclick="shwFltr02()"/>
+				<rect id="tstRect2" x="310" y="100" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" onclick="shwFltr02()"/>
 				 <!-- = 'ZPDU' -->
 				<text class="stdDesc" x="20" y="145">Sales Organization</text><text class="fldName" x="220" y="145">VKORG</text><text class="fldName" x="320" y="145">LINK</text>
 				<text class="stdDesc" x="20" y="170">Customer</text><text class="fldName" x="220" y="170">KUNNR</text><text class="fldName" x="320" y="170">LINK</text>
 				<text class="stdDesc" x="20" y="195">Material</text><text class="fldName" x="220" y="195">MATNR</text><text class="fldNone" x="320" y="195">NONE</text>
 				<text class="stdDesc" x="20" y="220">Release status</text><text class="fldName" x="220" y="220">KFRST</text><text class="fldNone" x="320" y="220">NONE</text>
 				<text class="stdDesc" x="20" y="245">Valid to</text><text class="fldName" x="220" y="245">DATBI</text><text class="fldName" x="320" y="245">FILTER</text>
+				<rect id="tstRect2" x="310" y="220" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" onclick="shwFltr03()"/>
 				<!--  >= 'MA' -->
 				<text class="stdDesc" x="20" y="270">Valid From</text><text class="fldName" x="220" y="270">DATAB</text><text class="fldNone" x="320" y="270">NONE</text>
 				<text class="stdDesc" x="20" y="295">Processing status</text><text class="fldName" x="220" y="295">KBSTAT</text><text class="fldNone" x="320" y="295">NONE</text>
@@ -439,7 +440,12 @@
 		
 		<path class="stdTableLink" d="M895,615 L920,615 C920,615 940,615 940,635  L940,635 C940,635 940,665 960,665 L1000,665"
 			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+			
+		<path class="stdTableLink" d="M1400,815 L1430,815 C1430,815 1450,815 1450,795 L1450,610 C1450,610 1450,590 1470,590  L1500,590"
+			marker-end="url(#arrowhead)" marker-start="url(#point10)"  stroke-width="0" />
+			
 	</g>
+
 </svg>
 <div id="tooltipDiv" onclick="vanishme()">
 
@@ -469,11 +475,26 @@
 	}
 	
 	function shwFltr02(){
-		window.alert("Fileter értéke: KLTSCH=5");
 		var div = document.getElementById("tooltipDiv");
 		var x = event.clientX;     // Get the horizontal coordinate
 		var y = event.clientY
 		div.innerHTML='<p class="tltpMsg">A szűrő értéke: ZPDU, ami biztosítja, hogy csak a PDU árat kérdezzük le!</p>';
+		div.style.left= (x - 20) + "px";
+		div.style.top= (y + 20) + "px";
+		div.style.width="360px";
+		div.style.height="80px";
+		div.style.backgroundColor="#5F5F5F";
+		div.style.color="#FFFFFF";
+		div.style.border = "thick solid #009999";
+		div.style.opacity=".75";
+		div.style.padding="5";
+	}
+	
+	function shwFltr03(){
+		var div = document.getElementById("tooltipDiv");
+		var x = event.clientX;     // Get the horizontal coordinate
+		var y = event.clientY
+		div.innerHTML='<p class="tltpMsg">A szűrő értéke: MAI DÁTUM, ami biztosítja, hogy ne valami régi árat lássunk!</p>';
 		div.style.left= (x - 20) + "px";
 		div.style.top= (y + 20) + "px";
 		div.style.width="360px";
