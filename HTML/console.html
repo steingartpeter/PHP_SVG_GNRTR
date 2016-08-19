@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+		body{
+			background-color:#607070;
+		}
+		div.console-container{
+			position:absolute;
+			width:620px;
+			height:620px;
+			top:100;
+			left:150;
+			background-color:#5A5A5A;
+			padding:25px;
+		}
+		
+		#consoleheader{
+			padding-left:10px;
+			height:18px;
+			width:600px;
+			background-color:#0505FF;
+			font-size:10px;
+			color:#FFFF00;
+		}
+		
+		textarea#console{
+			width:600px;
+			height:320px;
+			color:#F5F5F5;
+			font-family:"Consolas";
+			background-color:#050505;
+			box-shadow:#090909 5px 5px 8px;
+			border-bottom:10px #CDCDCD ridge;
+			border-right:10px #CDCDCD ridge;
+			border-left:10px #CDCDCD ridge;
+			oveflow:hide;
+		}
+	</style>
+</head>
+<body>
+	<div class="console-container">
+		<div id="consoleheader">Console szövege...</div>
+		<textarea id="console">C:\></textarea>
+	</div>
+</body>
+</html>
