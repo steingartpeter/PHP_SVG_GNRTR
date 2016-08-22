@@ -37,3 +37,58 @@ svg rect.emptyBgRect{
 	stroke-width:5;
 	stroke:#FF9999;
 }
+
+/***************************************** ADATBAZIS TABLAK FORMATUMA *********************************/
+#svg-canvas{
+	background-color:#E8E8D8;
+	border:2px solid #C7C7B7;
+}
+.table-grid{
+	background-color:#EFEFEF;
+}
+.tblHeader{
+	font-family:"Courier new";
+	fill:#020202;
+	stroke:none;
+	font-size:22px;
+	font-weight:bold;
+	text-anchor:middle;
+}
+.fldName{
+	font-family:"Courier new";
+}
+.stdHdr1{
+	fill:#FFFFFF;
+	stroke:none;
+	font-family:"Courier New";
+	font-weight:bold;
+}
+.fldOUT{
+	font-weight:bold;
+	fill:#252599;
+	text-decoration:underline;
+}
+.fldNone{
+	fill:#ADADAD;
+}
+path.stdTableLink{
+	fill:none;
+	stroke:#00AADD;
+	stroke-width:3;
+	opacity:.65;
+	/*stroke-dasharray:7,3;*/
+}
+path.stdTableLink:hover{
+	fill:none;
+	
+	stroke:#0055FF;
+	stroke-width:4;
+	opacity:1;
+}
+div#tooltipDiv{
+	position:absolute;
+	font-family:"Tahoma";
+	font-size:18px;
+	box-shadow:4px 4px 6px #050505;
+	border-radius:5px;
+}

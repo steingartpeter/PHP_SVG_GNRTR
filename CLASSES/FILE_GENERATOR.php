@@ -106,6 +106,8 @@ class PAGE_GNRTR{
 		$prms['grd_cy'] = 3;
 		$svg->addObject($this->tstBasicCircle($prms));
 		
+		
+		
 		$htmlCnnt .= $svg->getCODE();
 		$htmlCnnt .= '</div></body>' . PHP_EOL;
 		$htmlCnnt .= '</html>' . PHP_EOL;
@@ -188,7 +190,7 @@ class PAGE_GNRTR{
 		return $this->rootSVG;
 	}
 
-	public function  tstBasicCircle($prmObj = ""){
+	public function tstBasicCircle($prmObj = ""){
 		$svgGnrtr = new SVG_OBJECT();
 		if($prmObj == ""){
 			$crcl = $svgGnrtr->getOneCircle();
@@ -239,32 +241,139 @@ class PAGE_GNRTR{
 		return $htmlCnnt;
 	}
 	
-	private function createRootSVG($w=15,$h=20){
-		//<SF>
-		// Az alap, közvetlenül a BODY-ba kerülő SVG node.
-		// Ezt érdemes megtartani, és a [SVG_OBJECT] osztály addObject függvényével
-		// ehhez adni további elemeket.
-		//</SF>
-		$prmObj = array();
-		$prmObj['id'] = "canvas";
-		$prmObj['width'] = ($w *64) . "px";
-		$prmObj['height'] = ($h * 64) . "px";
-		$prmObj['type'] = "svg";
-	
-		$rootSvg = new SVG_OBJECT($prmObj);
-	
-		return $rootSvg;
+	public function createTestSite(){
+	//<SF>
+	// 2016-08-22<br>
+	// Ebben a függvényben tesztelek mindent, ami nem a standard hálós kiosztással készül.<br>
+	// Az első ilyen érdekesség, az adatbázistáblák grafikus megjelenítésének tesztelése.
+	// PARAMÉTEREK:
+	//×-
+	// @-- nincs -@
+	//-×
+	// MÓDOSÍTÁSOK :
+	//×-
+	// @-- ... -@
+	//-×
+	//</SF>
+		//<nn>
+		// Itt készítünk egy SVG_OBJECT példányt, ezt használjuk majd a generátofüggvények hívogatására.<br>
+		// <code>$svgCntnr = new SVG_OBJECT();</code>
+		//</nn>
+		$svgGnrtr = new SVG_OBJECT();
+		
+		//<nn>
+		// Itt egy üres array-t deklarálunk paraméterobjektumnak. Ebbe tehetjük bele az egyes
+		// beállítások értékeit.<br>Itt a createBaseSVGGrp($p) függvény hívásánál nincs nagyon sok
+		// beállítanivaló, csak a szélesség $params['width'], és a magasság $params['height'].<br>
+		// A függvény ezekkel a paraméterekkel fogja legenrálni az alap SVG tárolónkat.
+		// Fontos, hogy ez nem az &lt;SVG&gt; objektum, hanem már abban egy svg:group elem.<br>
+		// Minden más elemet ebbe fogunk bepakolni.<br>
+		// Itt például táblákat generáltatunk majd, és minden tábla (amik maguk is group-okból álló group elemek) 
+		// ebbe a groupba kerül majd bele.
+		//</nn>
+		$params=array();
+		$params["width"] = 1200;
+		$params["height"] = 1200;
+		$svgCntnr = $this->createBaseSVGGrp($params);
+		//<nn>
+		// Szerzünk egy referenciát a rootSVG objektumra, ami maga a legfelső szint SVG elem &lt;SVG&gt;.<br>
+		// <code>$svg = $this->rootSVG;</code><br>
+		// Erre szükség lesz, mert a szépen lépésenként, egyesével legenerált elemeket ehhez kell majd hozzáadnunk, 
+		// a megfeleleő <code>[addObject(SVG_OBJECT obj)]</code> metódussal.
+		//</nn>
+		$svg = $this->rootSVG;
+		//<nn>
+		// A dolog végül egyszerű HTML kód formájában fog a lapra kerülni, ezt ideiglenesen a $htmlCnnt változóban
+		// tásoljuk, amninek.
+		//</nn>
+		$htmlCnnt = "";
+		
+		
+		//<nn>
+		// A $htmlCnnt változóba bepakoljuk a fejlécadatokat. Betesszük a doctype, html, head, és body
+		// deklarációkat feltöltve, plusz elkezdünk egy div elemet is, ami az svg elem tárolója lesz.
+		//</nn>
+		$htmlCnnt .= '<!DOCTYPE html>' . PHP_EOL;
+		$htmlCnnt .= '<head>' . PHP_EOL;
+		$htmlCnnt .= '<meta charset="utf-8">';
+		$htmlCnnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
+		$htmlCnnt .= '</head>' . PHP_EOL;
+		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
+		
+		//<DEBUG>
+		// Először ezzel próbálkoztam:<br>
+		// A probléma az volt, hogy ez csak egyetlen elmet képes így legenerálni. A következő generálási
+		// híváskor a $svgGnrtr objektumon, ez az objektum [a $svgDEF01], megsemmisül, és több  nem érhető el.<br>
+		// $svgDEF01 = $svgGnrtr->getOneSTDDefs();<br>
+		// Így ez nem ahsználható abban a munkamenetben, hogy:
+		//×-
+		// @-- különböző változókba (SVG_OBJECT) példányokba begeneráljuk az egyes SVG elemeket -@
+		// @-- majd ezeket az elemeket egyenként az addObject(SVG_OBJECT) metódussal az alap tárolóhoz adjuk -@
+		//-×
+		// Ha ezt így használtam, az volt a dolog vége, hogy az utoljára generált objektumot adtam a tárolóhoz
+		// minden másik objektum helyett. <br> Gondolom, hogy az lehetett a baj, hogy az újonnan létrehozott 
+		// objektum [$svgDEF01] csak egy referencia tipus volt, így a következő hívásnál, ennek a code elme is
+		// felülíródott, mint az eredeti $svgGnrtr objektumé.<br>
+		// A megoldás, hogy helyben inicializálunk egy új SVG objektumotz minden alkalommal:<br>
+		// $svgDEF01 = (new SVG_OBJECT())->getOneSTDDefs();<br>
+		// az ilyen objektumokat aztán tetszés szerinti sorrendben adhatjuk a tároló objektumhoz.
+		//</DEBUG>
+		$svgDEF01 = (new SVG_OBJECT())->getOneSTDDefs();
+		//<DEBUG>
+		// echo "<p>************************************</p><p>DEF hozzáadása: </p>";
+		//</DEBUG>
+		
+		//<DEBUG>
+		// A korábbi, nem működő havás:<br>
+		// $svgTable = $svgGnrtr->generateTable();<br>
+		// Az új, működő:<br>
+		// $svgTable = (new SVG_OBJECT())->generateTable();
+		//</DEBUG>
+		$svgTable = (new SVG_OBJECT())->generateTable();
+		//<DEBUG>
+		// A kódtartalom kiíratása, amennyiben kell:<br>
+		// echo "<p>************************************</p><p>TABLE hozzáadása: </p>";
+		//</DEBUG>
+		
+		
+		//<nn>
+		// A létrhozott objektumokat hozzáadjuk a tároló SVG objektumhoz:<br>
+		// $svgCntnr->addObject($svgTable);<br>
+		// $svgCntnr->addObject($svgDEF01);<br>
+		// $svg->addObject($svgCntnr);<br>
+		//</nn>
+		$svgCntnr->addObject($svgTable);
+		$svgCntnr->addObject($svgDEF01);
+		$svg->addObject($svgCntnr);
+		
+		//<nn>
+		// Végül a legfelső szintű tároló kódját adjuk hozzá a HTML kódot tartalmazó változónkhoz:<br>
+		// $htmlCnnt .= $svg->getCODE();
+		//</nn>
+		$htmlCnnt .= $svg->getCODE();
+		
+		//<nn>
+		// Most már nincs más dolgunk, csak a HTML kódban lezárni a DIV-et, és BODY-t.
+		//</nn>
+		
+		$htmlCnnt .= '</div></body>' . PHP_EOL;
+		$htmlCnnt .= '</html>' . PHP_EOL;
+		
+		//<nn>
+		// Végül visszaadjuk a szép hosszú HTML stringet.
+		//</nn>
+		return $htmlCnnt;
+		
 	}
-	
 	
 	/*************************************************************************************************************/
 	/******************************              ___PRIVATE SECTION___              ******************************/
 	/*************************************************************************************************************/
 	
 	private function genBSC_BG_SVG($wdth, $hght){
-		//<SF>
-		//Alap SVG háttér generálása.
-		//</SF>
+	//<SF>
+	//Alap SVG háttér háló generálása.
+	//</SF>
 		$prms = array();
 		$prms['id'] = "baseGridGrp";
 		$grid = new SVG_OBJECT($prms);
@@ -282,6 +391,22 @@ class PAGE_GNRTR{
 		return $grid;
 	}
 	
+	private function createRootSVG($w=15,$h=20){
+		//<SF>
+		// Az alap, közvetlenül a BODY-ba kerülő SVG node.
+		// Ezt érdemes megtartani, és a [SVG_OBJECT] osztály addObject függvényével
+		// ehhez adni további elemeket.
+		//</SF>
+		$prmObj = array();
+		$prmObj['id'] = "canvas";
+		$prmObj['width'] = ($w *64) . "px";
+		$prmObj['height'] = ($h * 64) . "px";
+		$prmObj['type'] = "svg";
+	
+		$rootSvg = new SVG_OBJECT($prmObj);
+	
+		return $rootSvg;
+	}
 	
 	private function genRNDHEXColor(){
 	//<SF>
@@ -294,6 +419,33 @@ class PAGE_GNRTR{
 			$col .= $str;
 		}
 		return $col;
+	}
+
+	private function createBaseSVGGrp($params){
+	//<SF>
+	//Alap SVG tároló generálása.
+	//</SF>
+		$prms = array();
+		$prms['id'] = "baseSVGGrp";
+		$bGroup = new SVG_OBJECT($prms);
+		$code = "<g id=\"baseSVGGrp\" ";
+		if($params !== ""){
+			
+			if(isset($params["width"])){
+				$code .= 'width="' . $params["width"] . 'px" '; 
+			}else{
+				$code .= 'width="500px" ';
+			}
+			if(isset($params["height"])){
+				$code .= 'height="' . $params["height"] . 'px" ';
+			}else{
+				$code .= 'height="500px" ';
+			}
+			
+		}
+		$code .= "></g>";
+		$bGroup->setCODE($code);
+		return $bGroup;		
 	}
 }
 

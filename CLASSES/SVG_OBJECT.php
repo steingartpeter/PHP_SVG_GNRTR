@@ -142,7 +142,18 @@ class SVG_OBJECT{
 		$poz = 1;
 		$poz = strrpos($this->code, "</", -1);
 		$cd1 = substr($this->code, 0,$poz);
+		//<DEBUG>
+		// Itt ellenőrizhetjük a string felbontást, mebnézhtejük mi kerül az első részbe.<br>
+		// echo "<p>\$cd1: " . htmlentities($cd1) . " </p>";
+		//</DEBUG>
+		
 		$cd2 = substr($this->code, $poz, strlen($this->code));
+		//<DEBUG>
+		// Itt ellenőrizhetjük a string felbontást, megnézhtejük mi kerül az utolsó részbe.<br>
+		// E kettő között kell lennie a hozzáadott elem kódjának.<br>
+		//echo "<p>\$cd2: " . htmlentities($cd2) . " </p>";
+		//</DEBUG>
+		
 		$this->code = $cd1;
 		$this->code .= $svgObj->getCODE();
 		$this->code .= $cd2;
@@ -193,6 +204,17 @@ class SVG_OBJECT{
 	//<SF>
 	//Alap svg:Defs objektum létrehozása
 	//</SF>
+		if($params == ""){
+			$this->code = 
+			'<defs id="BSC-defs">
+				<linearGradient id="BSC-linGrad">
+					<stop id="stop0001" style="stop-color:#00ccb7;stop-opacity:1" offset="0" />
+					<stop id="stop0002" style="stop-color:#5b5f5c;stop-opacity:1" offset="1" />
+			    </linearGradient>
+			</defs>';
+		}else{
+			
+		}
 		return $this;
 	}
 	
@@ -391,6 +413,103 @@ class SVG_OBJECT{
 		}
 	}
 	
+	public function generateTable($params = ""){
+	//<SF>
+	// 2016-08-22<br>
+	// Ez a függgvény egy táblázatot generál majd. Olyan rácsozott téglalap ez, amiben szövegelemek vannak, és 
+	// adatbázis táblákat, valamint kapcsolataikat írja le.<br>
+	// PARAMÉTEREK:
+	//×-
+	// @-- $params = egy opcionális paraméter ami valamennyi szükséges/lehetséges paramétert 
+	// tartalamazhat egy opcionális tömbben -@
+	//-×
+	// MÓDOSÍTÁSOK :
+	//×-
+	// @-- ... -@
+	//-×
+	//</SF>
+		if($params == ""){
+			$this->code = '<g id="tblTest" transform="translate(10,10)">
+				<rect x="10" y="10" height="340" width="400" fill="#EFEFEF"></rect>
+					<g id="vbfa-texts">
+						<rect id="ttlBGround" x="11" y="11" height="38" width="398" fill="#FFFF5A" />
+						<text class="tblHeader" x="200" y="35">TEST</text>
+						
+						<rect class="hdrBGround" x="10" y="50" height="25" width="200" fill="#7C7C7C" />
+						<rect class="hdrFrm" x="13" y="53" height="19" width="194" fill="none" stroke="#000000" stroke-width="1" />
+						
+						<rect class="hdrBGround" x="210" y="50" height="25" width="100" fill="#7C7C7C"/>
+						<rect class="hdrFrm" x="213" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+						
+						<rect class="hdrBGround" x="310" y="50" height="25" width="100" fill="#7C7C7C"/>
+						<rect class="hdrFrm" x="313" y="53" height="19" width="93" fill="none" stroke="#000000" stroke-width="1" />
+						
+						
+						<!-- SPECIAL background RECTS -->
+						<rect class="lnkBgrnd" x="310" y="75" height="25" width="100" fill="#B4DCB4" />
+						<rect class="lnkBgrnd" x="310" y="100" height="25" width="100" fill="#B4DCB4" />
+						<rect class="fltrBgrnd" x="310" y="175" height="25" width="100"  fill="#FFCCCC" />
+						
+						<text class="stdHdr1" x="20" y="68">Descr.</text><text class="stdHdr1" x="220" y="68">Tech.Name</text><text class="stdHdr1" x="320" y="68">Role</text>
+						
+						<text class="stdDesc" x="20" y="95">Preceding Document</text><text class="fldName" x="220" y="95">VBELV</text><text class="fldName" x="320" y="95">LINK</text>
+						<text class="stdDesc" x="20" y="120">Preceding item</text><text class="fldName" x="220" y="120">POSNV</text><text class="fldName" x="320" y="120">LINK</text>
+						<text class="stdDesc" x="20" y="145">Subsequent document</text><text class="fldName" x="220" y="145">VBELN</text><text class="fldOUT" x="320" y="145">OUT</text>
+						<text class="stdDesc" x="20" y="170">Subsequent item</text><text class="fldName" x="220" y="170">POSNN</text><text class="fldOUT" x="320" y="170">OUT</text>
+						<text class="stdDesc" x="20" y="195">Subsequent doc. cat.</text><text class="fldName" x="220" y="195">VBTYP_N</text><text font-size="14" class="fldOUT" x="315" y="195">OUT-FILTER</text>
+						<rect id="tstRect" x="310" y="175" width="100" height="25" fill="#FF00FF" stroke="#FF0000" stroke-width="1" opacity=".0" title="..." onclick="shwFltr01()"/>
+						<text class="stdDesc" x="20" y="220">Quantity</text><text class="fldName" x="220" y="220">RFMNG</text><text class="fldNone" x="320" y="220">NONE</text>
+						<text class="stdDesc" x="20" y="245">Reference value</text><text class="fldName" x="220" y="245">RFWRT</text><text class="fldOUT" x="320" y="245">OUT</text>
+						<text class="stdDesc" x="20" y="270">Statistics currency</text><text class="fldName" x="220" y="270">WAERS</text><text class="fldOUT" x="320" y="270">OUT</text>
+						<text class="stdDesc" x="20" y="295">Created on</text><text class="fldName" x="220" y="295">ERDAT</text><text class="fldOUT" x="320" y="295">OUT</text>
+						<text class="stdDesc" x="20" y="320">Time</text><text class="fldName" x="220" y="320">ERZET</text><text class="fldOUT" x="320" y="320">OUT</text>
+						<text class="stdDesc" x="20" y="345">Billing category</text><text class="fldName" x="220" y="345">FKTYP</text><text class="fldOUT" x="320" y="345">OUT</text>
+		
+					</g>
+					
+					
+					<g class="table-grid" transform="translate(10,10)">
+						<!-- VBFA - VÍZSZIINTES VONALAK -->
+						<line x1="0" x2="400" y1="0" y2="0" stroke="#000000" stroke-width="3" />
+						<line x1="0" x2="400" y1="40" y2="40" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="65" y2="65" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="90" y2="90" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="115" y2="115" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="140" y2="140" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="165" y2="165" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="190" y2="190" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="215" y2="215" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="240" y2="240" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="265" y2="265" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="290" y2="290" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="315" y2="315" stroke="#000000" stroke-width="1" />
+						<line x1="0" x2="400" y1="340" y2="340" stroke="#000000" stroke-width="3" />
+						
+						<!-- VBFA - FÜGGŐLEGES VONALAK -->
+						<line x1="0" x2="0" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+						<line x1="200" x2="200" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+						<line x1="300" x2="300" y1="40" y2="340" stroke="#000000" stroke-width="1" />
+						<line x1="400" x2="400" y1="0" y2="340" stroke="#000000" stroke-width="3" />
+					</g>
+			</g>';
+		}else{
+			$this->code = "<g id=";
+			
+			if(isset($params["mainGroupID"])){
+				$this->code .= '"'. $params["mainGroupID"] .'"';
+			}else{
+				$this->code .= '"tbl-'. rand(100,999) .'" ';
+			}
+			$this->code .= 'transform="translate(';
+			if(isset($params["mainGrpTranslate"])){
+				$this->code .= $params["mainGrpTranslate"]["x"] . ",";
+				$this->code .= $params["mainGrpTranslate"]["y"] . ')" >';
+			}
+		}
+		
+		return $this;
+		
+	}
 	
 	public function genLottoSzelveny(){
 	//<SF>

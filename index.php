@@ -4,6 +4,7 @@
 	$hInGridUnit = 25;
 	$gnr = new PAGE_GNRTR($wInGridUnit,$hInGridUnit);
 	
-	echo $gnr->GENRT_BASIC_SITE_BACKGROUND($wInGridUnit,$hInGridUnit);
+	//echo $gnr->GENRT_BASIC_SITE_BACKGROUND($wInGridUnit,$hInGridUnit);
+	echo $gnr->createTestSite();
 	
 ?>
