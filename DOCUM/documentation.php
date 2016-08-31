@@ -54,7 +54,9 @@
 			tartalma a szerveren legenerálódót.<br>Vagyis egy-egy céloldal PHP függvények hívásával generáltatja le 
 			a saját kódját a szerveren.  Emiatt a PAGE_GNRTR osztály egy-egy függvény kell jelenleg, hogy előre megírt kód
 			alapján generáljon le egy-egy oldalt. A későbbiekben ezt az osztály ki fogom bővíteni egy olyan függvénnyel, ami
-			egy megfelelő specifikáció alapján készített adathalmazból (mondjuk JSON file) generál dinamikusan tartalmat.
+			egy megfelelő specifikáció alapján készített adathalmazból (mondjuk JSON file) generál dinamikusan tartalmat.<br>
+			Sajnos már most látom, hogy ennek vannak hiányosságai. A SVG-OBJECT class-t meg kellett volna hagyni vmi üres
+			dolognak pár általános jellemzővel, és kellene egy plusz SVG GENERÁTOR class, ami nincs.
 		</div>
 		<div class="normNote">
 			Létrehozzuk az alap SVG objektumunkat, azzal, 
