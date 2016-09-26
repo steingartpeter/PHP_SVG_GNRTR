@@ -650,8 +650,12 @@
 		//<nn>
 		// A kattintás ablak-koordinátái,ennek alapján tudjuk majd elhelyezni a DIV-ünket.
 		//</nn>
-		var x = event.clientX;
-		var y = event.clientY;
+		var x = window.event.clientX;
+		//var x = window.event.screenX;
+		var y = window.event.clientY;
+		//var y = window.event.screenY;
+		console.log("window.event.clientX: " + window.event.clientX + ",window.event.screenX: " + window.event.screenX);
+		console.log("window.event.clientY: " + window.event.clientY + ",window.event.screenY: " + window.event.screenY);
 		//<nn>
 		// Megírjuk a tooltip szövegét, majd betesszük a tooltip innerHTML-jébe.
 		//</nn>
@@ -692,8 +696,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;
-		var y = event.clientY;
+		var x = event.clientX+document.body.scrollLeft;
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tblinbinvoices</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -724,8 +728,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = event.clientX+document.body.scrollLeft;
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tblinblines</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -756,8 +760,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = event.clientX+document.body.scrollLeft;
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tbltcnitems</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -788,8 +792,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = event.clientX+document.body.scrollLeft;
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tblinvcitms</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -820,8 +824,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = event.clientX+document.body.scrollLeft;     // Get the horizontal coordinate
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tblgridcodes</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -852,8 +856,8 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = event.clientX+document.body.scrollLeft;     // Get the horizontal coordinate
+		var y = event.clientY+document.body.scrollTop;
 		var htmlTxt = "<h4>A <code>tbldealers</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
@@ -884,8 +888,12 @@
 	//-×
 	//</SF>
 		var div = document.getElementById("tooltipDiv");
-		var x = event.clientX;     // Get the horizontal coordinate
-		var y = event.clientY
+		var x = window.event.clientX+document.body.scrollLeft;
+		//var x = window.event.screenX;
+		var y = window.event.clientY+document.body.scrollTop;
+		//var y = window.event.screenY;
+		console.log("window.event.clientX: " + window.event.clientX + ",window.event.screenX: " + window.event.screenX);
+		console.log("window.event.clientY: " + window.event.clientY + ",window.event.screenY: " + window.event.screenY);
 		var htmlTxt = "<h4>A <code>tbldealers</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
