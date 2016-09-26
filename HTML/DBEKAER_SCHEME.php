@@ -1,5 +1,14 @@
 <?php
-	
+	$file = $_SERVER["DOCUMENT_ROOT"] . "/PHP_SVG_GNRTR/aux_files/db01JSON.json";
+	$dbJSON = file_get_contents($file);
+	if($dbJSON == FALSE){
+		echo "<p>NEM SIKERÜLT A BEOLVASÁS...</p>";
+	}else{
+		$dataArr = json_decode($dbJSON,true);
+		echo "<p><pre>";
+		print_r($dataArr);
+		echo "</pre></p>";
+	}
 ?>
 <html>
 <head>
@@ -630,7 +639,7 @@
 		console.log("READY!");
 
 	}();
-	function tblekrnrDesc(){
+	function tblekrnrDesc(event){
 	//<SF>
 	// 2016. szept. 26.<br>
 	// Egy belő mJAVASCRIPT függvény, ami az onclick eseménnyel csatlakozik, és a tábla leírását jeleníti meg tooltip-ként. <br>
@@ -654,8 +663,8 @@
 		//var x = window.event.screenX;
 		var y = window.event.clientY;
 		//var y = window.event.screenY;
-		console.log("window.event.clientX: " + window.event.clientX + ",window.event.screenX: " + window.event.screenX);
-		console.log("window.event.clientY: " + window.event.clientY + ",window.event.screenY: " + window.event.screenY);
+		//console.log("window.event.clientX: " + ev.clientX + ",window.event.screenX: " + ev.screenX);
+		//console.log("window.event.clientY: " + ev.clientY + ",window.event.screenY: " + ev.screenY);
 		//<nn>
 		// Megírjuk a tooltip szövegét, majd betesszük a tooltip innerHTML-jébe.
 		//</nn>
@@ -892,9 +901,7 @@
 		//var x = window.event.screenX;
 		var y = window.event.clientY+document.body.scrollTop;
 		//var y = window.event.screenY;
-		console.log("window.event.clientX: " + window.event.clientX + ",window.event.screenX: " + window.event.screenX);
-		console.log("window.event.clientY: " + window.event.clientY + ",window.event.screenY: " + window.event.screenY);
-		var htmlTxt = "<h4>A <code>tbldealers</code> tábla leírása:</h4>";
+		var htmlTxt = "<h4>A <code>tblvtsz</code> tábla leírása:</h4>";
 		htmlTxt += '<p class="tltpMsg"> ... ';
 		htmlTxt += '</p>';
 		div.innerHTML = htmlTxt;
