@@ -286,19 +286,19 @@ class PAGE_GNRTR{
 		// A dolog végül egyszerű HTML kód formájában fog a lapra kerülni, ezt ideiglenesen a $htmlCnnt változóban
 		// tásoljuk, amninek.
 		//</nn>
-		$htmlCnnt = "";
+		$htmlCntn = "";
 		
 		
 		//<nn>
 		// A $htmlCnnt változóba bepakoljuk a fejlécadatokat. Betesszük a doctype, html, head, és body
 		// deklarációkat feltöltve, plusz elkezdünk egy div elemet is, ami az svg elem tárolója lesz.
 		//</nn>
-		$htmlCnnt .= '<!DOCTYPE html>' . PHP_EOL;
-		$htmlCnnt .= '<head>' . PHP_EOL;
-		$htmlCnnt .= '<meta charset="utf-8">';
-		$htmlCnnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
-		$htmlCnnt .= '</head>' . PHP_EOL;
-		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
+		$htmlCntn .= '<!DOCTYPE html>' . PHP_EOL;
+		$htmlCntn .= '<head>' . PHP_EOL;
+		$htmlCntn .= '<meta charset="utf-8">';
+		$htmlCntn .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
+		$htmlCntn .= '</head>' . PHP_EOL;
+		$htmlCntn .= '<body><div class="SVG-Container">' . PHP_EOL;
 		
 		//<DEBUG>
 		// Először ezzel próbálkoztam:<br>
@@ -350,19 +350,19 @@ class PAGE_GNRTR{
 		// Végül a legfelső szintű tároló kódját adjuk hozzá a HTML kódot tartalmazó változónkhoz:<br>
 		// $htmlCnnt .= $svg->getCODE();
 		//</nn>
-		$htmlCnnt .= $svg->getCODE();
+		$htmlCntn .= $svg->getCODE();
 		
 		//<nn>
 		// Most már nincs más dolgunk, csak a HTML kódban lezárni a DIV-et, és BODY-t.
 		//</nn>
 		
-		$htmlCnnt .= '</div></body>' . PHP_EOL;
-		$htmlCnnt .= '</html>' . PHP_EOL;
+		$htmlCntn .= '</div></body>' . PHP_EOL;
+		$htmlCntn .= '</html>' . PHP_EOL;
 		
 		//<nn>
 		// Végül visszaadjuk a szép hosszú HTML stringet.
 		//</nn>
-		return $htmlCnnt;
+		return $htmlCntn;
 		
 	}
 	
