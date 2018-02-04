@@ -1,34 +1,35 @@
 # PHP_SVG_GNRTR
 
-Ennek a PHP projektnek az a célja, hogy vizuális elemeket generáljon, 
-aminek a segítségével vizuális dokumetáció készíthetõ a projektekrõl.
-Elsõ lépésben egy SVG shape generátort kell elkészíteni.
-Itt egy paraméterobjektum alapján generál szöveget a megfelelõ
-PHP osztály, ami benne lesz a weblapban.
+Ennek a PHP projektnek az a cÃ©lja, hogy vizuÃ¡lis elemeket generÃ¡ljon, 
+aminek a segÃ©tsÃ©gÃ©vel vizuÃ¡lis dokumetÃ¡ciÃ³ kÃ©szÃ­thetÅ‘ a projektekrÅ‘l.
+ElsÅ‘ lÃ©pÃ©sben egy SVG shape generÃ¡tort kell elkÅ‘szÃ©teni.
+Itt egy paramÃ©terobjektum alapjÃ¡n generÃ¡l szÃ¶veget a megfelelÅ‘
+PHP osztÃ¡ly, ami benne lesz a weblapban.
 
-Ha ez megoldható, és hatékonynak bizonyul, akkor megnézzük, hogy 
-építhetõ-e komplex grafikoin ezekbõl az elemekbõl. Ha igen akkor 
-tovább léphetünk. A következõ lépés az lenne, hogy egy dokumentációs
-metanyelvet dolgozzunk ki. Vagyis egységes, átlátható, áttkeinthetõ
-[szabványos] grafikus megjelenítést hozzunk létre a dokumentációhoz.
-Ez lesz agrafikus metanyelv (egységes jelek, elemek, kapcsolatok, stb
-mint egy kvázi UML.)
-Ezután meg kell teremteni az ez alatt létezõ szöveges metanyelvet, 
-ami mondjuk egy JSON file lehet. Ennek a szövegtartalma, és struktúrája
-két szempontnak kell megfeleljen:
- - a már megírt kódból/dokumentációból elõállíthatónak kell lennie
- - az itteni PHP kd által értelmezhetõnek kell lennie
-Ha ez sikerül, akkor a fejlesztések során, a következõ mentet lehet követni:
-a kód megírása során a dokumentáció benne lesz a fejlesztõi változatban, 
-ha a kód átment a teszten, akkor excellel legeneráljuk a hozzá tartozó HTML
-alapú szöveges dokuemntációt. Ez egybõl használható.
-Másrészrõl, valamilyen köztes programmal szintén legenráljuk az itteni 
-grafikus generátor számára érthetõ JSON filet, és ezt csak megadjuk a 
-generátorfüggényeknek, amik létrehozzák a vizuális dokumentációt.
+Ha ez megoldhatÃ³, Ã©s hatÃ©konynak bizonyul, akkor megnÃ©zzÃ¼k, hogy 
+Ã©pÃ­thetÅ‘-e komplex grafikoin ezekbÅ‘l az elemekbÅ‘l. Ha igen akkor 
+tovÃ¡bb lÃ©phetÃ¼nk. 
+A kÃ¶vetkezÅ‘ lÃ©pÃ©s az lenne, hogy egy dokumentÃ¡ciÃ³s
+metanyelvet dolgozzunk ki. Vagyis egysÃ©ges, Ã¡tlÃ¡thatÃ³, Ã¡ttkeinthetÅ‘
+[szabvÃ¡nyos] grafikus megjelenÃ­tÃ©st hozzunk lï¿½Ã©tre a dokumentÃ¡ciÃ³hoz.
+Ez lesz agrafikus metanyelv (egysÃ©ges jelek, elemek, kapcsolatok, stb
+mint egy kvÃ¡zi UML.)
+EzutÃ¡n meg kell teremteni az ez alatt lÃ©tezÅ‘ szÃ¶veges metanyelvet, 
+ami mondjuk egy JSON file lehet. Ennek a szÃ¶vegtartalma, Ã©s struktÃºrÃ¡ja
+kÃ©t szempontnak kell megfeleljen:
+ - a mÃ¡r megÃ­rt kÃ³dbÃ³l/dokumentÃ¡ciÃ³bÅ‘l elÅ‘Ã¡llÃ­thatÃ³nak kell lennie
+ - az itteni PHP kÃ³d Ã¡ltal Ã©rtelmezhetÅ‘nek kell lennie
+Ha ez sikerï¿½l, akkor a fejlesztÃ©sek sorÃ¡n, a kÃ¶vetkezÅ‘ mentet lehet kÃ¶vetni:
+- a kÃ³d megÃ­rÃ¡sa sorÃ¡n a dokumentÃ¡ciÃ³ benne lesz a fejlesztÅ‘i vÃ¡ltozatban, 
+- ha a kÃ³d Ã¡tment a teszten, akkor excellel legenerÃ¡ljuk a hozzÃ¡ tartozÃ³ HTML
+alapÃº szÃ¶veges dokuemntÃ¡ciÃ³t. Ez egybÅ‘l hasznÃ¡lhatÃ³.
+MÃ¡srÃ©szrÅ‘l, valamilyen kÃ¶ztes programmal szintÃ©n legenrÃ¡ljuk az itteni 
+grafikus generÃ¡tor szÃ¡mÃ¡ra Ã©rthetÅ‘ JSON filet, Ã©s ezt csak megadjuk a 
+generÃ¡torfÃ¼ggÃ©nyeknek, amik lÃ©trehozzÃ¡k a vizuÃ¡lis dokumentÃ¡ciÃ³t.
 
-A standard SVG elemek kódját az INKSCAPE programból vesszük, mert ott
-grafikusan megrajzoljható amire szükségünk lesz, majd SVG fromátumban 
-mentve hozzáférünk a szövegtartalomhoz, ami a rajzot leírja.
+A standard SVG elemek kÃ³djÃ¡t az INKSCAPE programbÃ³l vesszÃ¼k, mert ott
+grafikusan megrajzoljhatÃ³ amire szÃ¼ksÃ©gÃ¼nk lesz, majd SVG fromÃ¡tumban 
+mentve hozzÃ¡fÃ©rÃ¼nk a szÃ¶vegtartalomhoz, ami a rajzot leÃ­rja.
 
 
 

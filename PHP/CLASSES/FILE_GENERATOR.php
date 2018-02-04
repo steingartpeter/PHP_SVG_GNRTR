@@ -19,8 +19,8 @@
 //-×
 //-×
 //</M>
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/CONSTANTS.php';
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/SVG_OBJECT.php';	
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/PHP/CLASSES/CONSTANTS.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/PHP/CLASSES/SVG_OBJECT.php';	
 
 class PAGE_GNRTR{
 //<SF>
@@ -71,12 +71,9 @@ class PAGE_GNRTR{
 		$svgCntnr = $this->genBSC_BG_SVG($w,$h);
 		$svg = $this->rootSVG;
 		$htmlCnnt = "";
+		$htmlCnnt .= $this->genHTMLHEAD();
 		
-		$htmlCnnt .= '<!DOCTYPE html>' . PHP_EOL;
-		$htmlCnnt .= '<head>' . PHP_EOL;
-		$htmlCnnt .= '<meta charset="utf-8">';
-		$htmlCnnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
-		$htmlCnnt .= '</head>' . PHP_EOL;
+		
 		$htmlCnnt .= '<body><div class="SVG-Container">' . PHP_EOL;
 		
 		
@@ -109,8 +106,10 @@ class PAGE_GNRTR{
 		
 		
 		$htmlCnnt .= $svg->getCODE();
-		$htmlCnnt .= '</div></body>' . PHP_EOL;
-		$htmlCnnt .= '</html>' . PHP_EOL;
+		$htmlCnnt .= "</div>";
+		
+		$htmlCnnt .= $this->getHTMLFooter();
+		
 		
 		return $htmlCnnt;
 	}
@@ -229,7 +228,6 @@ class PAGE_GNRTR{
 		$htmlCnnt .= '</div>';
 		$htmlCnnt .= '<script>';
 		$htmlCnnt .= 'function refresh(){';
-		//                      document.getElementById
 		$htmlCnnt .= 'var btn = document.getElementById("regenBtn"); ';
 		$htmlCnnt .= 'location.reload(); ';
 		$htmlCnnt .= 'console.log("Kattintás kezelő"); ';
@@ -369,6 +367,91 @@ class PAGE_GNRTR{
 	/*************************************************************************************************************/
 	/******************************              ___PRIVATE SECTION___              ******************************/
 	/*************************************************************************************************************/
+	
+	private function genHTMLHEAD(){
+	//<SF>
+	// 2018. febr. 4.<br>
+	// A HTML lap HEAD tagjának legenerálása (file linkek!!!)<br>
+	// PARAMÉTEREK:
+	//×-
+	// @-- @param ... = ... -@
+	//-×
+	//MÓDOSTÁSOK:
+	//×-
+	// @-- ... -@
+	//-×
+	//</SF>
+	   $htmlCntnt = "";
+	   
+	   $htmlCntnt .= '<!DOCTYPE html>' . PHP_EOL;
+	   $htmlCntnt .= '<head>' . PHP_EOL;
+	   $htmlCntnt .= '<meta charset="utf-8">' . PHP_EOL;
+	   $htmlCntnt .= '<script type="application/javascript" charset="UTF8" src="' . JS_JQR . 'jQuery311.min.js' .'"></script>'.PHP_EOL;
+	   $htmlCntnt .= '<script type="application/javascript" charset="UTF8" src="' . JS_JQUI . 'jquery-ui.js' .'"></script>'.PHP_EOL;
+	   $htmlCntnt .= '<script type="application/javascript" charset="UTF8" src="' . JS_LOC . 'mainApp.js' .'"></script>'.PHP_EOL;
+	   $htmlCntnt .= '<link rel="stylesheet" type="text/css" href="' . JS_JQUI . 'jquery-ui.theme.css">'.PHP_EOL;
+	   $htmlCntnt .= '<link rel="stylesheet" type="text/css" href="' . CSS_BTSRTP . 'bootstrap.css">'.PHP_EOL;
+	   $htmlCntnt .= '<link rel="stylesheet" type="text/css" href="' . CSS_BTSRTP . 'bootstrap-theme.css">'.PHP_EOL    ;
+	   $htmlCntnt .= '<link rel="stylesheet" type="text/css" href="/PHP_SVG_GNRTR/CSS/basic.css">';
+	   $htmlCntnt .= '</head>' . PHP_EOL;
+	   
+	   return $htmlCntnt;
+	}
+	
+	private function getHTMLFooter(){
+	//<SF>
+	// 2018. febr. 4.<br>
+	// A standard HTML footer legenerálása<br>
+	// PARAMÉTEREK:
+	//×-
+	// @-- @param ... = ... -@
+	//-×
+	//MÓDOSTÁSOK:
+	//×-
+	// @-- ... -@
+	//-×
+	//</SF>
+	   
+	   $htmlCntnt = "";
+	   
+	   $htmlCntnt .= '<div id="std-ftr"><p> Made by AX07057 &copy; - 2018</p></div>';
+	   $htmlCntnt .= '<div id="modalWndw" class="modal-base" title="Modális ablak OK?">
+	       <p>
+	       <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+	       Modális ablak üzenethez.
+	       </p>
+	   </div>
+	   <div id="bsc-toolTip">
+	   </div>';
+	   
+	   
+	   
+	   $htmlCntnt .= '</body>' . PHP_EOL;
+	   $htmlCntnt .= '</html>' . PHP_EOL;
+	   
+	   return $htmlCntnt;
+	    
+	}
+	
+	private function genSTDUpperNav(){
+	//<SF>
+	// 2018. febr. 4.<br>
+	// A standard felső naviáció legenrálása.<br>
+	// PARAMÉTEREK:
+	//×-
+	// @-- @param ... = ... -@
+	//-×
+	//MÓDOSTÁSOK:
+	//×-
+	// @-- ... -@
+	//-×
+	//</SF>
+	   $htmlCntnt = "";
+	   
+	   
+	   
+	   return $htmlCntnt;
+	}
 	
 	private function genBSC_BG_SVG($wdth, $hght){
 	//<SF>

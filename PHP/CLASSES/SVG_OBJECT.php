@@ -20,7 +20,7 @@
 //-×
 //-×
 //</M>	
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/CLASSES/CONSTANTS.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/PHP_SVG_GNRTR/PHP/CLASSES/CONSTANTS.php';
 	
 class SVG_OBJECT{
 	
